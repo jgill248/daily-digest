@@ -1,1329 +1,187 @@
-# Ask Sage Enhanced Platform — System Specification
+# AI News Briefing — Last 24 Hours
 
-**Version:** 2.0.0-draft
-**Date:** 2026-04-15
-**Status:** Proposal
-**Author:** John (AI-Assisted)
+**Date:** Thursday, April 16, 2026
+**Scope:** Frontier model news, new AI tools & frameworks, real-world implementation stories
 
 ---
 
-## 1. Executive Summary
+## Executive Summary
 
-This specification defines a complete prototype platform that replicates and extends the core functionality of Ask Sage's generative AI platform. The system serves as a functional proof-of-concept for proposed enhancements, demonstrating improvements to dataset management, retrieval quality, knowledge navigation, and operational transparency — while preserving Ask Sage's strengths as a secure multi-model gateway.
-
-The platform is organized into seven subsystems:
-
-1. **Gateway Layer** — NestJS backend that proxies Ask Sage's API for model inference while intercepting and enhancing the request/response pipeline with local capabilities.
-2. **Document Lifecycle** — Ingestion, parsing, chunking, embedding, and storage of source documents with full configurability and transparency at every stage.
-3. **Retrieval Engine** — Multi-strategy retrieval (semantic, keyword, hybrid, metadata-filtered) powered by pgvector and Postgres full-text search, replacing Ask Sage's opaque RAG pipeline.
-4. **Taxonomy Engine** — Managed controlled vocabulary with hierarchical term structures, synonym resolution, query expansion, and auto-tagging.
-5. **Dataset Wiki** — Auto-generated, browsable, editable knowledge base with provenance tracking, cross-references, and coverage analysis.
-6. **Chat Interface** — React-based conversational UI with full context assembly transparency, source citations, and session management.
-7. **Audit & Observability** — Comprehensive logging of every decision in the pipeline from query to response, exportable for compliance review.
-
-### 1.1 Architectural Philosophy
-
-The system uses a **proxy-and-replace** architecture. NestJS acts as the sole backend for the React frontend. For capabilities where Ask Sage excels (multi-model access, government cloud hosting, security posture), the backend proxies requests to Ask Sage's API. For capabilities being replaced or enhanced (dataset management, retrieval, knowledge navigation, audit), the backend uses local Postgres/pgvector infrastructure.
-
-The frontend never communicates directly with Ask Sage. This creates a clean seam where any proxied capability can be replaced with a local implementation without frontend changes, and vice versa.
-
-```
-┌─────────────────────────────────────────────────────────┐
-│                   React Frontend                        │
-│  Chat │ Wiki Browser │ Dataset Mgr │ Taxonomy │ Admin   │
-└──────────────────────┬──────────────────────────────────┘
-                       │ HTTP/WebSocket
-┌──────────────────────┴──────────────────────────────────┐
-│                   NestJS Backend                        │
-│                                                         │
-│  ┌─────────────┐  ┌──────────────┐  ┌───────────────┐  │
-│  │ Chat Module  │  │ Dataset      │  │ Wiki Module   │  │
-│  │             │  │ Module       │  │               │  │
-│  └──────┬──────┘  └──────┬───────┘  └───────┬───────┘  │
-│         │                │                   │          │
-│  ┌──────┴──────┐  ┌──────┴───────┐  ┌───────┴───────┐  │
-│  │ Retrieval   │  │ Ingestion    │  │ Taxonomy      │  │
-│  │ Engine      │  │ Pipeline     │  │ Engine        │  │
-│  └──────┬──────┘  └──────┬───────┘  └───────┬───────┘  │
-│         │                │                   │          │
-│  ┌──────┴────────────────┴───────────────────┴───────┐  │
-│  │              Audit & Observability                 │  │
-│  └───────────────────────┬───────────────────────────┘  │
-│                          │                              │
-│  ┌───────────────────────┴───────────────────────────┐  │
-│  │            Ask Sage API Proxy                      │  │
-│  │  (model inference, personas, plugins, auth)        │  │
-│  └───────────────────────┬───────────────────────────┘  │
-└──────────────────────────┼──────────────────────────────┘
-                           │ HTTPS
-              ┌────────────┴────────────┐
-              │   Ask Sage API          │
-              │   api.asksage.ai        │
-              │   /server/* /user/*     │
-              └─────────────────────────┘
-
-              ┌─────────────────────────┐
-              │   PostgreSQL + pgvector  │
-              │   Documents, Chunks,    │
-              │   Vectors, Taxonomy,    │
-              │   Wiki, Audit Logs      │
-              └─────────────────────────┘
-
-              ┌─────────────────────────┐
-              │   Redis                 │
-              │   Job Queues, Cache,    │
-              │   Session State         │
-              └─────────────────────────┘
-```
-
-### 1.2 Tech Stack
-
-| Layer | Technology | Justification |
-|---|---|---|
-| Frontend | React + TypeScript | Existing team expertise; component ecosystem |
-| Styling | Tailwind CSS + Radix UI primitives | IBM Carbon-adjacent aesthetic; accessible primitives |
-| State Management | Zustand or TanStack Query | Lightweight; server-state-first for data-heavy UI |
-| Backend | NestJS + TypeScript | Modular architecture; decorator-based DI; WebSocket support |
-| ORM | Prisma or TypeORM | Type-safe schema management; migration tooling |
-| Database | PostgreSQL 16+ with pgvector | Vector search + relational + full-text in one engine |
-| Job Queue | BullMQ + Redis | Reliable async processing; job monitoring dashboard |
-| Cache | Redis | Shared cache for taxonomy, wiki TOC, session data |
-| File Storage | Local filesystem (prototype) / S3-compatible (production) | Original document storage |
-| Search | PostgreSQL tsvector + pgvector | No external search dependency; hybrid search capability |
-| Containerization | Docker + Docker Compose | Single-command dev environment; production parity |
-
-### 1.3 Design Principles
-
-1. **Provenance is non-negotiable.** Every AI-generated output traces to specific source material through an auditable chain.
-2. **Transparency over magic.** Users see how documents were processed, how retrieval worked, and what context the model received.
-3. **Human-in-the-loop by default.** Auto-generated content is staged for review. SMEs can correct and extend. Machine and human contributions are distinguished.
-4. **Taxonomy is infrastructure, not bureaucracy.** Controlled vocabulary reduces friction via auto-suggest and auto-tag, not mandatory forms.
-5. **Incremental value.** Each subsystem is useful independently. Taxonomy improves retrieval. Wiki improves navigation. Together they compound.
-6. **Proxy what works, replace what doesn't.** Ask Sage's model gateway is good. Its dataset pipeline is not. The architecture respects that distinction.
+The week of April 14 is shaping up to be one of the busiest in AI in months. Three storylines dominate: (1) an imminent Claude Opus 4.7 release plus a surprise AI design tool from Anthropic, (2) OpenAI's counter-launch of GPT-5.4-Cyber as a direct response to Anthropic's Mythos posture, and (3) a widening split in how frontier labs are handling dangerous-capability models — restrict vs. broad-but-verified access. Underneath the headlines, Claude Code and the Claude Developer Platform shipped a large wave of updates, and the first major AI-hiring class action (Mobley v. Workday) was certified as a nationwide collective just as the EU AI Act's August 2026 enforcement deadline looms.
 
 ---
 
-## 2. Gateway Layer — Ask Sage API Proxy
+## 1. Frontier Model News
 
-### 2.1 Overview
+### Claude Opus 4.7 — Launch Imminent
 
-The Gateway Layer manages authentication with Ask Sage's API and proxies requests for capabilities that remain on Ask Sage's infrastructure. It also intercepts and enriches requests where local capabilities augment Ask Sage's functionality.
+*The Information* broke on April 14 that Anthropic is preparing to release **Claude Opus 4.7** alongside a new AI design tool, with a launch window "as soon as this week." On April 16, a user spotted the unreleased model ID `anthropic-claude-opus-4-7` in Google Vertex AI's quota management page — the same pre-deployment pattern that preceded Opus 4.6's release. Polymarket currently puts the release by April 16 at ~79% probability.
 
-### 2.2 Authentication Flow
+Key details:
+- Incremental upgrade over Opus 4.6 (released February); expected gains in multi-step reasoning, coding, and multi-agent orchestration.
+- **Distinct from Claude Mythos** — Mythos remains restricted to ~40 organizations under Project Glasswing (including Amazon, Apple, Microsoft, JPMorgan Chase, CrowdStrike) and is not a candidate for public release.
+- A **Sonnet 4.8** SKU has been confirmed in source-code leaks, projected 1–4 weeks behind Opus 4.7.
+- Pricing expected in the ballpark of Opus 4.6 ($75/M output tokens).
 
-```
-User Login (React)
-    │
-    ▼
-NestJS Auth Module
-    │
-    ├─► Local session created (JWT, stored in Redis)
-    │
-    ├─► POST api.asksage.ai/user/get-token-with-api-key
-    │   (email + API key from local config)
-    │
-    ▼
-Ask Sage access token stored in local session
-    │
-    ▼
-All proxied requests attach x-access-tokens header automatically
-```
+### Anthropic's New AI Design Tool
 
-#### 2.2.1 Credential Management
+Bundled with the 4.7 announcement is a natural-language design tool that generates **websites, landing pages, presentations, and product prototypes** from plain-English prompts. It targets both developers and non-technical users, putting Anthropic in direct competition with Figma, Wix, Adobe, GoDaddy, Gamma, and Google Stitch. The leak alone knocked Figma, Adobe, Wix, and GoDaddy shares down 2–4% on April 14. Anthropic has separately partnered with Figma to convert AI-generated code into editable design files and has integrated Claude into Microsoft Word and PowerPoint.
 
-Ask Sage credentials (email + API key per user) are stored encrypted in Postgres. The backend manages token refresh transparently — if a proxied request returns 401, the backend re-authenticates and retries once before surfacing the error to the frontend.
+### OpenAI Launches GPT-5.4-Cyber (April 14)
 
-```sql
-CREATE TABLE user_credentials (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL UNIQUE,
-    asksage_email VARCHAR(255) NOT NULL,
-    asksage_api_key_encrypted BYTEA NOT NULL,
-    asksage_access_token TEXT,
-    token_expires_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-```
+OpenAI announced **GPT-5.4-Cyber**, a "cyber-permissive" variant of GPT-5.4 fine-tuned for defensive security work, with a deliberately lowered refusal boundary so it won't block sensitive security queries that general models flag as risky. Capabilities include **binary reverse engineering** — analyzing compiled software for malware and vulnerabilities without source code access.
 
-### 2.3 Proxied Endpoints
+Access is gated through OpenAI's **Trusted Access for Cyber** program (launched February alongside a $10M cybersecurity grants program), with tiered verification and thousands of verified individual defenders plus hundreds of teams covering critical software. Verification at chatgpt.com/cyber.
 
-These Ask Sage endpoints are proxied as-is through NestJS. The backend adds audit logging but does not modify payloads.
+### The Mythos vs. GPT-5.4-Cyber Philosophical Split
 
-| Local Route | Proxied To | Purpose |
-|---|---|---|
-| `POST /api/v1/models` | `/server/get-models` | List available models |
-| `POST /api/v1/personas` | `/server/get-personas` | List personas |
-| `POST /api/v1/plugins` | `/server/get-plugins` | List plugins |
-| `POST /api/v1/query/plugin` | `/server/query-plugin` | Execute a plugin query |
-| `POST /api/v1/query/execute-plugin` | `/server/execute-plugin` | Execute plugin with content |
-| `POST /api/v1/tokens/count` | `/server/count-monthly-tokens` | Token usage |
-| `POST /api/v1/tts` | `/server/get-text-to-speech` | Text-to-speech |
-| `POST /api/v1/agents/list` | `/server/list-agents` | List available agents |
-| `POST /api/v1/agents/execute` | `/server/execute-agent` | Execute agent workflow |
+This is the story beneath the story. Two approaches to the same problem:
 
-### 2.4 Replaced Endpoints
+- **Anthropic (Mythos):** The model is too capable to distribute widely — restrict access to ~40 vetted organizations. On a standardized Firefox vulnerability test, Mythos turned known weaknesses into working exploits 181 times vs. 2 for the prior model. Anthropic noted these capabilities **weren't explicitly trained in** — they emerged.
+- **OpenAI (GPT-5.4-Cyber):** Verify *who* gets access rather than restrict *what* the model can do; broad access to thousands of authenticated defenders produces better outcomes than scarcity. OpenAI's Codex Security has contributed to fixes on 3,000+ critical/high-severity vulnerabilities since launch.
 
-These Ask Sage capabilities are replaced by local implementations:
+Independent UK AISI evaluation this week found Mythos roughly comparable to GPT-5.4 on individual cyber tasks but notably **stronger at multi-step attack chaining** — which is exactly the capability gap that matters for autonomous intrusion.
 
-| Replaced Ask Sage Endpoint | Local Replacement | Reason |
-|---|---|---|
-| `/server/query` | Local retrieval + context assembly + Ask Sage model call | Control over retrieval, context, and audit |
-| `/server/query_with_file` | Local file processing + retrieval + model call | Control over file handling |
-| `/server/train` | Local ingestion pipeline | Full lifecycle control |
-| `/server/train-with-file` | Local ingestion pipeline | Full lifecycle control |
-| `/server/get-datasets` | Local dataset management | Relational dataset model |
-| `/server/file` | Local file processing | Preserve originals |
-| `/user/add-dataset` | Local dataset CRUD | Versioned datasets |
-| `/user/delete-datasets` | Local dataset CRUD | Soft-delete with history |
-| `/user/get-chats` | Local session management | Richer session model |
-| `/user/get-chat-session` | Local session management | Full context reconstruction |
+### Frontier Model Forum — Anti-Distillation Coalition
 
-### 2.5 The Enhanced Query Flow
+Announced April 6–7 and still reverberating: OpenAI, Anthropic, and Google are sharing attack-pattern intelligence through the Frontier Model Forum to detect adversarial distillation. Named targets: **DeepSeek, Moonshot AI, and MiniMax**. Anthropic alone documented **16 million unauthorized exchanges across ~24,000 fraudulent accounts** traced to those three. This is the first time the Forum has been activated as an active threat-intelligence operation rather than a safety-pledge venue. OpenAI has separately submitted a memo to the House Select Committee on China about DeepSeek's distillation methods.
 
-```
-User sends message (React)
-    │
-    ▼
-POST /api/v1/chat/message
-    │
-    ▼
-1. Session Resolution
-   - Load or create chat session
-   - Load session history and summarized context
-    │
-    ▼
-2. Retrieval (LOCAL - pgvector + Postgres FTS)
-   - Determine retrieval strategy (from workspace config or explicit)
-   - Expand query terms via taxonomy synonyms
-   - Execute retrieval against selected datasets
-   - Score and rank results
-   - Return chunks with provenance metadata
-    │
-    ▼
-3. Context Assembly (LOCAL)
-   - Apply token budget (model-specific context window)
-   - Deduplicate overlapping chunks
-   - Order by relevance (or chronological)
-   - Format chunks with source citations
-   - Prepend system prompt (persona or custom)
-   - Append conversation history (summarized if needed)
-   - Record assembled context as audit artifact
-    │
-    ▼
-4. Model Inference (PROXIED to Ask Sage)
-   - POST api.asksage.ai/server/query
-     OR POST api.asksage.ai/server/openai/v1/chat/completions
-   - Body includes assembled context as the message
-   - Model, temperature from workspace config or user override
-    │
-    ▼
-5. Response Processing (LOCAL)
-   - Parse response
-   - Extract and validate source citations
-   - Store query + context + response in audit log
-   - Update session history
-   - Return response with structured citation metadata
-    │
-    ▼
-React renders response with clickable source citations
-```
+### Meta's Muse Spark (April 8)
+
+Meta debuted **Muse Spark** (codename Avocado), the first model from Meta Superintelligence Labs under Alexandr Wang, who joined via Meta's $14.3B Scale AI deal. Key feature: a "Contemplating mode" using a squad of AI agents to reason in parallel, pitched to compete with Gemini Deep Think and GPT Pro. Also includes a Shopping mode drawing on styling content from Meta's apps. Meta has guided 2026 AI capex at **$115–$135 billion**, nearly twice 2025. Separately on April 14, Meta announced an expanded partnership with **Broadcom** to co-develop next-generation MTIA chips.
+
+### Stanford 2026 AI Index (April 13)
+
+The annual report card landed this week. Key signals:
+- Generative AI reached **53% population adoption in three years** — faster than PCs or the internet. Organizational adoption: **88%**.
+- **SWE-bench Verified** climbed from 60% to nearly 100% in one year (caveat: OpenAI has since declared the benchmark "contaminated" after finding frontier models had memorized solutions).
+- Estimated consumer value of generative AI tools: **$172B annually**, with median value per user tripling from 2025 to 2026.
+- US and China are neck-and-neck on the Arena leaderboard; as of March 2026, Anthropic leads, trailed closely by xAI, Google, and OpenAI, with DeepSeek and Alibaba lagging only modestly.
+
+### The Frontier Plateau
+
+The Intelligence Index ceiling (57.18) set by Gemini 3.1 Pro Preview in February has held. GPT-5.4 matched it in March. Nobody has broken through. Q1 2026 closed without a clear new #1. Meanwhile, open-source is closing fast: **GLM-5.1** (MIT license, beat GPT-5.4 on real-world coding benchmarks), **Gemma 4** (Apache 2.0), **Mistral Small 4** (Apache 2.0, 6.5B active params). "What's changing fast is everything below and around the frontier."
 
 ---
 
-## 3. Core Data Model — Users, Workspaces, Configuration
+## 2. New AI Tools & Software Frameworks
 
-### 3.1 Users
+### Claude Code & Claude Developer Platform Updates
 
-```sql
-CREATE TABLE users (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    email VARCHAR(255) NOT NULL UNIQUE,
-    display_name VARCHAR(255) NOT NULL,
-    role VARCHAR(20) NOT NULL DEFAULT 'member'
-        CHECK (role IN ('admin', 'manager', 'member', 'viewer')),
-    is_active BOOLEAN NOT NULL DEFAULT true,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-```
+Anthropic has been shipping Claude Code updates on roughly a two-week cadence. Highlights from the latest release notes:
+- **`/team-onboarding` command** — generates a teammate ramp-up guide from local Claude Code usage history.
+- **OS CA certificate store trust by default** — enterprise TLS proxies work without extra setup (relevant for anyone behind corporate SSL inspection). Override with `CLAUDE_CODE_CERT_STORE=bundled`.
+- **Worktree switching** via a `path` parameter on the `EnterWorktree` tool.
+- **PreCompact hook blocking** (exit code 2 or `{"decision":"block"}`).
+- **Background plugin monitors** via a top-level `monitors` manifest key.
+- Fixes for subagents not inheriting MCP tools from dynamically-injected servers, sub-agent worktree access, Bedrock SigV4 auth, and several `/resume` picker issues.
 
-### 3.2 Workspaces
+### Anthropic Advisor Tool (Public Beta)
 
-Workspaces bundle configuration, team membership, datasets, wikis, and defaults into a scoped environment. Replaces Ask Sage's flat global context.
+A new Claude API pattern: **pair a faster executor model with a higher-intelligence advisor model** that provides strategic guidance mid-generation. Long-horizon agentic workloads get close to advisor-solo quality while the bulk of token generation happens at executor-model rates. Beta header: `advisor-tool-2026-03-01`.
 
-```sql
-CREATE TABLE workspaces (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    default_model VARCHAR(100) NOT NULL DEFAULT 'gpt-4o-mini',
-    default_persona_id VARCHAR(50),
-    default_temperature REAL NOT NULL DEFAULT 0.7,
-    default_retrieval_strategy VARCHAR(30) NOT NULL DEFAULT 'hybrid'
-        CHECK (default_retrieval_strategy IN ('semantic', 'keyword', 'hybrid', 'metadata_filtered')),
-    default_retrieval_limit INTEGER NOT NULL DEFAULT 10,
-    classification_level VARCHAR(30) NOT NULL DEFAULT 'unclassified'
-        CHECK (classification_level IN ('unclassified', 'cui', 'cui_specified', 'confidential', 'secret', 'top_secret')),
-    config JSONB NOT NULL DEFAULT '{}',
-    created_by UUID REFERENCES users(id) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+### Claude Cowork — GA on macOS and Windows
 
-CREATE TABLE workspace_members (
-    workspace_id UUID REFERENCES workspaces(id) ON DELETE CASCADE NOT NULL,
-    user_id UUID REFERENCES users(id) ON DELETE CASCADE NOT NULL,
-    workspace_role VARCHAR(20) NOT NULL DEFAULT 'member'
-        CHECK (workspace_role IN ('admin', 'editor', 'member', 'viewer')),
-    joined_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    PRIMARY KEY (workspace_id, user_id)
-);
-```
+Claude Cowork is now generally available through the Claude Desktop app on both macOS and Windows. Expansions: Cowork in the Analytics API, OpenTelemetry support, and role-based access controls for Enterprise plans so admins can tailor access by team and department.
 
-### 3.3 Workspace Configuration Schema
+### Claude Managed Agents (Public Beta)
 
-```typescript
-interface WorkspaceConfig {
-    retrieval: {
-        strategy: 'semantic' | 'keyword' | 'hybrid' | 'metadata_filtered';
-        semantic_weight: number;              // 0.0-1.0, default: 0.7
-        keyword_weight: number;               // 0.0-1.0, default: 0.3
-        max_chunks: number;                   // default: 10
-        min_relevance_score: number;          // default: 0.3
-        taxonomy_expansion_enabled: boolean;  // default: true
-        include_wiki_pages: boolean;          // default: false
-    };
-    chat: {
-        system_prompt_override: string | null;
-        max_history_messages: number;         // default: 20
-        auto_summarize_history: boolean;      // default: true
-        summarize_after_messages: number;     // default: 10
-        show_retrieval_debug: boolean;        // default: false
-    };
-    ingestion: {
-        default_chunking_strategy: string;
-        auto_tag_with_taxonomy: boolean;      // default: true
-        auto_generate_summaries: boolean;     // default: true
-        summary_model: string;                // default: 'gpt-4o-mini'
-    };
-    wiki: {
-        auto_publish: boolean;                // default: false
-        require_review: boolean;              // default: true
-        generation_model: string;             // default: 'gpt-4o-mini'
-        max_tokens_per_page: number;          // default: 4000
-    };
-}
-```
+A fully managed agent harness for running Claude as an autonomous agent with secure sandboxing, built-in tools, and server-sent event streaming. Reduces the operational lift of building your own agent runtime.
+
+### Other Platform Changes Worth Noting
+
+- `max_tokens` cap raised to **300k** on the Message Batches API for Opus 4.6 and Sonnet 4.6 (`output-300k-2026-03-24` beta header).
+- The 1M-token context beta for Sonnet 4.5 and Sonnet 4 retires April 30, 2026.
+- Sonnet 4 and Opus 4 deprecation notice: API retirement June 15, 2026 — migrate to 4.6.
+- Structured outputs now GA across Sonnet 4.5, Opus 4.5, and Haiku 4.5. Note: `output_format` moved to `output_config.format`.
+- New **Claude in Amazon Bedrock** endpoint at `/anthropic/v1/messages` — same request shape as first-party API, AWS-managed, zero operator access (us-east-1, access via Anthropic account exec).
+
+### Google Chrome Skills
+
+Google launched **Skills in Chrome** — saveable prompts as reusable one-click workflows powered by Gemini. Example use cases Google highlighted: ingredient substitutions for recipes, side-by-side shopping comparisons across multiple tabs, scanning long documents.
+
+### Funding Activity (April 15)
+
+- **Fluidstack** — negotiating a $1B round at an $18B valuation (up from $7.5B months ago). AI-native data center capacity.
+- **Parasail** — $32M Series A for an "AI supercloud" for inference and training (Touring Capital, Kindred Ventures, Samsung NEXT, Flume, Banyan). Positioning at the runtime layer between models and production.
+- **Artemis** — $70M Series A for AI-native security operations and automated response.
+- **Hilbert** — $28M Series A for agentic AI that automates growth decisions.
+- **Wayve** — $60M Series D extension for hardware-agnostic autonomous driving AI.
+- **Gizmo** — $22M Series A for AI-powered studying and personalized learning.
+
+### Infrastructure & Ecosystem
+
+- **Amazon acquiring Globalstar for ~$11.57B** (April 14) to bolster Project Kuiper, rebranded as Amazon Leo. Partnership with Apple for satellite connectivity on future iPhones and Apple Watches.
+- **Novo Nordisk + OpenAI** — strategic partnership to accelerate drug discovery and integrate AI across Novo's global operations by end of 2026.
+- **Tatum / Walrus** — 11TB of Ethereum, Bitcoin, and BSC historical blockchain data made instantly available on Walrus for AI training and agentic workflows.
+- **Agentic AI Foundation (Linux Foundation)** — launched December 2025, now gaining enterprise traction. Anchored by MCP (Anthropic), AGENTS.md (OpenAI), and Block's goose framework. MCP adoption is increasingly cited as a hedge against vendor lock-in at the agent-orchestration layer.
 
 ---
 
-## 4. Document Lifecycle
+## 3. Real-World Stories & Implementation Case Studies
 
-### 4.1 Overview
+### Mobley v. Workday Certified as Nationwide Collective
 
-Replaces Ask Sage's opaque `/train` and `/train-with-file` with a transparent, configurable pipeline that preserves source files, exposes chunking decisions, and stores rich metadata alongside embeddings.
+A federal court in California certified **the first major AI-hiring bias class action** as a nationwide collective under the Age Discrimination in Employment Act. Lead plaintiff Derek Mobley (Black, over 40) applied to 100+ jobs through companies using Workday's screening features and was rejected every time. Judge Rita Lin rejected the argument that the ADEA doesn't cover applicants. In March 2026, plaintiffs added California state claims and physical disability claims. The practical takeaway for anyone deploying AI in hiring: **run a disparate impact analysis on your screening results now**. Vendors *and* employers can face liability.
 
-### 4.2 Data Model
+### EU AI Act Enforcement — August 2, 2026
 
-#### 4.2.1 Datasets
+Full enforcement kicks in August 2 for high-risk AI systems, which now explicitly includes **recruitment, task allocation, and performance monitoring**. Mandatory requirements: risk assessments, technical documentation, bias testing, human oversight, transparency disclosures, continuous monitoring. Penalties are steep. This is ~3.5 months out.
 
-Datasets are logical groupings. A document can belong to multiple datasets. Datasets do not own or destroy their documents.
+### PwC 2026 AI Performance Study — The Concentration Curve
 
-```sql
-CREATE TABLE datasets (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    workspace_id UUID REFERENCES workspaces(id) ON DELETE CASCADE NOT NULL,
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    classification_level VARCHAR(30) NOT NULL DEFAULT 'unclassified'
-        CHECK (classification_level IN ('unclassified', 'cui', 'cui_specified', 'confidential', 'secret', 'top_secret')),
-    status VARCHAR(20) NOT NULL DEFAULT 'active'
-        CHECK (status IN ('active', 'archived', 'deleted')),
-    document_count INTEGER NOT NULL DEFAULT 0,
-    chunk_count INTEGER NOT NULL DEFAULT 0,
-    created_by UUID REFERENCES users(id) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (workspace_id, name)
-);
+Surveying 1,217 senior executives across 25 sectors, PwC found that **20% of companies are capturing ~74% of AI's total economic gains**. Leaders generate 7.2x more AI-driven revenue and efficiency than the average competitor, with profit margins 4 percentage points higher. The common pattern: they've **rebuilt processes from the ground up** rather than running isolated pilots. Worker access to AI rose 50% in 2025. The number of companies with ≥40% of AI projects in production is set to double in six months.
 
-CREATE TABLE dataset_documents (
-    dataset_id UUID REFERENCES datasets(id) ON DELETE CASCADE NOT NULL,
-    document_id UUID REFERENCES documents(id) ON DELETE CASCADE NOT NULL,
-    added_by UUID REFERENCES users(id) NOT NULL,
-    added_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    PRIMARY KEY (dataset_id, document_id)
-);
-```
+### Stanford Enterprise AI Playbook — 51 Successful Deployments
 
-#### 4.2.2 Documents
+A useful counterweight to the "95% of GenAI pilots fail" MIT NANDA stat. Stanford's Digital Economy Lab deep-dived 51 cases where enterprise AI delivered measurable value. The pattern is consistent:
+- **All used iterative development. None used waterfall.** "Think of it as a layered cake. We built one process, documented it, then built that layer of the agent, then the second feature and the third feature on top of it."
+- Projects leveraging existing AI infrastructure moved dramatically faster. One company built a sales copilot in months because they had already built the customer support platform.
+- End-user willingness matters more than ROI modeling. Healthcare adopted ambient AI transcription quickly because physicians were desperate for relief, not because of documented payback.
+- The common failure mode in prior attempts: assuming "AI would just fix processes instead of also stepping back and making sure everything" in the underlying workflow was sound.
 
-```sql
-CREATE TABLE documents (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    workspace_id UUID REFERENCES workspaces(id) ON DELETE CASCADE NOT NULL,
-    filename VARCHAR(500) NOT NULL,
-    original_filename VARCHAR(500) NOT NULL,
-    mime_type VARCHAR(100) NOT NULL,
-    file_size_bytes BIGINT NOT NULL,
-    file_hash VARCHAR(128) NOT NULL,
-    file_storage_path TEXT NOT NULL,
-    title VARCHAR(500),
-    author VARCHAR(255),
-    publication_date DATE,
-    document_type VARCHAR(50),
-    classification_level VARCHAR(30) NOT NULL DEFAULT 'unclassified',
-    language VARCHAR(10) NOT NULL DEFAULT 'en',
-    page_count INTEGER,
-    metadata JSONB NOT NULL DEFAULT '{}',
-    processing_status VARCHAR(20) NOT NULL DEFAULT 'uploaded'
-        CHECK (processing_status IN ('uploaded', 'parsing', 'parsed', 'chunking', 'chunked', 'embedding', 'embedded', 'ready', 'error')),
-    processing_error TEXT,
-    uploaded_by UUID REFERENCES users(id) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+### Decision Authority Drift — The CTO Advisor Case Study (April 9)
 
-CREATE INDEX idx_documents_workspace ON documents(workspace_id);
-CREATE INDEX idx_documents_status ON documents(processing_status);
-CREATE INDEX idx_documents_hash ON documents(file_hash);
-```
+A well-documented failure mode that's increasingly common: organizations insert reasoning models into workflows without explicitly defining where decision authority resides. As model capabilities improve, the model quietly takes ownership of decisions that were never formally delegated. Output remained "technically correct" but no longer aligned with the author's defining characteristics. Audience growth slowed; engagement declined. The fix isn't less AI — it's **explicit authority boundaries** around reasoning models, with deterministic processes for known patterns and reasoning models invoked selectively where ambiguity exists.
 
-#### 4.2.3 Document Sections
+### Data-Center Backlash
 
-```sql
-CREATE TABLE document_sections (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    document_id UUID REFERENCES documents(id) ON DELETE CASCADE NOT NULL,
-    parent_section_id UUID REFERENCES document_sections(id) ON DELETE CASCADE,
-    section_number VARCHAR(50),
-    title VARCHAR(500),
-    content_text TEXT NOT NULL,
-    content_type VARCHAR(20) NOT NULL DEFAULT 'text'
-        CHECK (content_type IN ('text', 'table', 'list', 'image_caption', 'header', 'footer')),
-    page_start INTEGER,
-    page_end INTEGER,
-    depth INTEGER NOT NULL DEFAULT 0,
-    sort_order INTEGER NOT NULL DEFAULT 0,
-    word_count INTEGER,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
+On April 14, reports detailed activist groups in **24 U.S. states** protesting AI data center buildout — utility bill spikes, water consumption, noise pollution, land use. Tactics include ballot measures, council ousters, and isolated vandalism. Polling shows **65% of Americans oppose new facilities nearby**. Bipartisan, widespread. This is starting to slow construction pace even as Big Tech commits record capex.
 
-CREATE INDEX idx_sections_document ON document_sections(document_id);
-CREATE INDEX idx_sections_parent ON document_sections(parent_section_id);
-```
+### Davos / WEF AI Case Studies (context)
 
-#### 4.2.4 Chunking Strategies
+WEF's MINDS initiative has been highlighting 32 production AI cases with measurable impact. A sample of industrial/operational ones worth knowing:
+- **Wumart & Dmall (China):** AI-powered workflows for pricing optimization and energy consumption reduction in branch networks.
+- **Hyundai & DEEPX (South Korea):** Efficient AI for autonomous robots delivering 240x higher GPU performance with minimal power draw.
+- **ICBC:** 100B-parameter financial model generating ¥500M (~€61M) profit increase.
+- **Deep Principle (China):** AI-powered material simulation to accelerate discovery cycles.
+- **Tech Mahindra (India):** Multilingual LLMs supporting 3.8M monthly requests for digital public services.
 
-```sql
-CREATE TABLE chunking_strategies (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    algorithm VARCHAR(30) NOT NULL
-        CHECK (algorithm IN ('fixed_size', 'section_based', 'semantic', 'sentence_window', 'recursive_character')),
-    parameters JSONB NOT NULL,
-    is_default BOOLEAN NOT NULL DEFAULT false,
-    applicable_doc_types TEXT[],
-    created_by UUID REFERENCES users(id) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-```
+### Deloitte 2026 State of AI
 
-**Algorithm parameters:**
+Interviews with enterprises highlighted several live agentic deployments:
+- A financial services company using agentic workflows to **automatically capture meeting actions from video conferences**, draft reminder communications, and track follow-through.
+- An air carrier deploying agents to handle common transactions (rebooking flights, rerouting bags) so human agents focus on complex cases.
+- A manufacturer using agents in **new product development** to find the optimal balance between competing objectives like cost and time-to-market.
 
-- `fixed_size`: `{ "chunk_size": 512, "overlap": 50 }`
-- `section_based`: `{ "max_section_tokens": 1024, "split_large_sections": true, "overlap": 50 }`
-- `semantic`: `{ "similarity_threshold": 0.5, "min_chunk_size": 100, "max_chunk_size": 1000 }`
-- `sentence_window`: `{ "window_size": 3, "max_tokens": 512 }`
-- `recursive_character`: `{ "chunk_size": 1000, "overlap": 200, "separators": ["\n\n", "\n", ". "] }`
+Barrier #1 named by leaders: **insufficient worker skills**. Only 34% of organizations say they're truly reimagining the business; most are just educating the workforce without redesigning roles, workflows, or career paths.
 
-#### 4.2.5 Chunks
+### AI Finding Software Bugs Faster Than Humans Can Fix
 
-```sql
-CREATE TABLE chunks (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    document_id UUID REFERENCES documents(id) ON DELETE CASCADE NOT NULL,
-    section_id UUID REFERENCES document_sections(id) ON DELETE SET NULL,
-    strategy_id UUID REFERENCES chunking_strategies(id) NOT NULL,
-    chunk_index INTEGER NOT NULL,
-    content_text TEXT NOT NULL,
-    content_hash VARCHAR(128) NOT NULL,
-    token_count INTEGER NOT NULL,
-    page_start INTEGER,
-    page_end INTEGER,
-    section_path TEXT,
-    metadata JSONB NOT NULL DEFAULT '{}',
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (document_id, strategy_id, chunk_index)
-);
-
-CREATE INDEX idx_chunks_document ON chunks(document_id);
-CREATE INDEX idx_chunks_section ON chunks(section_id);
-CREATE INDEX idx_chunks_content_fts ON chunks USING GIN (to_tsvector('english', content_text));
-```
-
-#### 4.2.6 Embeddings
-
-```sql
-CREATE TABLE embedding_models (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(100) NOT NULL UNIQUE,
-    provider VARCHAR(50) NOT NULL,
-    dimensions INTEGER NOT NULL,
-    is_default BOOLEAN NOT NULL DEFAULT false,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE TABLE chunk_embeddings (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    chunk_id UUID REFERENCES chunks(id) ON DELETE CASCADE NOT NULL,
-    model_id UUID REFERENCES embedding_models(id) NOT NULL,
-    embedding vector NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (chunk_id, model_id)
-);
-
-CREATE INDEX idx_chunk_embeddings_vector ON chunk_embeddings
-    USING hnsw (embedding vector_cosine_ops) WITH (m = 16, ef_construction = 200);
-```
-
-### 4.3 Ingestion Pipeline
-
-Asynchronous, multi-stage, implemented as a BullMQ job chain.
-
-**Stage 1 — Upload:** Validate, hash, store original, create document record, enqueue parsing.
-
-**Stage 2 — Parsing:** Determine parser by MIME type (pdf-parse, mammoth, direct parse). Extract structure into `document_sections`. Preserve hierarchy.
-
-**Stage 3 — Chunking:** Load strategy, apply algorithm, compute token counts and hashes, store chunks with section path breadcrumbs.
-
-**Stage 4 — Embedding:** Batch chunks, generate embeddings via configured provider, store in `chunk_embeddings` with model reference.
-
-**Stage 5 — Auto-Tagging (optional):** Dictionary match against taxonomy + LLM extraction. Assign chunk/document tags. Stage unmatched frequent terms as proposed taxonomy additions.
-
-### 4.4 Document API
-
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/api/v1/documents/upload` | Upload and begin processing |
-| `GET` | `/api/v1/documents` | List (filterable by workspace, dataset, status, type) |
-| `GET` | `/api/v1/documents/:id` | Detail with sections and status |
-| `GET` | `/api/v1/documents/:id/sections` | Parsed section tree |
-| `GET` | `/api/v1/documents/:id/chunks` | Chunks with strategy info and tags |
-| `GET` | `/api/v1/documents/:id/original` | Download original file |
-| `PUT` | `/api/v1/documents/:id` | Update metadata |
-| `DELETE` | `/api/v1/documents/:id` | Soft-delete |
-| `POST` | `/api/v1/documents/:id/rechunk` | Re-chunk with different strategy |
-| `POST` | `/api/v1/documents/:id/reembed` | Re-embed with different model |
-
-### 4.5 Dataset API
-
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/api/v1/datasets` | Create dataset |
-| `GET` | `/api/v1/datasets` | List in workspace |
-| `GET` | `/api/v1/datasets/:id` | Detail with document list and stats |
-| `PUT` | `/api/v1/datasets/:id` | Update metadata |
-| `DELETE` | `/api/v1/datasets/:id` | Soft-delete (documents preserved) |
-| `POST` | `/api/v1/datasets/:id/documents` | Add document(s) to dataset |
-| `DELETE` | `/api/v1/datasets/:id/documents/:docId` | Remove document from dataset |
-
-### 4.6 Chunking Strategy API
-
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/api/v1/chunking-strategies` | Create strategy |
-| `GET` | `/api/v1/chunking-strategies` | List strategies |
-| `GET` | `/api/v1/chunking-strategies/:id` | Detail |
-| `PUT` | `/api/v1/chunking-strategies/:id` | Update parameters |
-| `DELETE` | `/api/v1/chunking-strategies/:id` | Delete (fails if in use) |
-| `POST` | `/api/v1/chunking-strategies/:id/preview` | Dry-run on a document |
+A theme running through multiple outlets this week: frontier models now surface bugs and vulnerabilities faster than development teams can triage and remediate them. This is what's driving both the Anthropic Mythos restriction and OpenAI's Trusted Access for Cyber rollout — defensively, the tooling is getting ahead of the patch cycle.
 
 ---
 
-## 5. Retrieval Engine
+## What to Watch Next (48–72 Hours)
 
-### 5.1 Strategies
-
-**Semantic:** pgvector cosine similarity against chunk embeddings.
-
-**Keyword:** Postgres `tsvector` full-text search with `ts_rank_cd` scoring.
-
-**Hybrid:** Execute both, normalize scores, combine via Reciprocal Rank Fusion (RRF):
-```
-RRF_score = Σ (1 / (k + rank_i))  for each strategy where chunk appears
-```
-Default k = 60.
-
-**Metadata-Filtered:** Any strategy combined with pre-filters on taxonomy terms, document types, classification levels, date ranges, or specific document inclusion/exclusion.
-
-### 5.2 Query Processing
-
-1. **Taxonomy expansion:** Resolve query terms → add synonyms/child terms.
-2. **Query embedding:** Embed expanded query with same model as chunks.
-3. **Execute strategy:** Run configured search, apply filters, rank results.
-
-### 5.3 Retrieval API
-
-```
-POST /api/v1/retrieval/search
-```
-
-```typescript
-interface RetrievalRequest {
-    query: string;
-    dataset_ids: string[];
-    strategy: 'semantic' | 'keyword' | 'hybrid' | 'metadata_filtered';
-    limit: number;                          // default: 10
-    min_relevance_score: number;            // default: 0.3
-    metadata_filters?: {
-        taxonomy_term_ids?: string[];
-        document_types?: string[];
-        classification_levels?: string[];
-        date_range?: { from?: Date; to?: Date };
-        document_ids?: string[];
-        exclude_document_ids?: string[];
-    };
-    taxonomy_expansion?: {
-        enabled: boolean;                   // default: true
-        include_synonyms: boolean;          // default: true
-        include_children: boolean;          // default: false
-        max_depth: number;                  // default: 1
-    };
-    hybrid_config?: {
-        semantic_weight: number;            // default: 0.7
-        keyword_weight: number;             // default: 0.3
-        fusion_method: 'weighted' | 'rrf'; // default: 'rrf'
-    };
-    include_debug: boolean;                 // default: false
-}
-
-interface RetrievalResponse {
-    results: {
-        chunk_id: string;
-        content_text: string;
-        relevance_score: number;
-        found_by: string[];
-        document: { id: string; title: string; filename: string; document_type: string; classification_level: string };
-        location: { section_path: string; page_start: number | null; page_end: number | null };
-        taxonomy_tags: { id: string; canonical_name: string }[];
-    }[];
-    debug?: {
-        expanded_query: string;
-        taxonomy_terms_matched: { id: string; name: string }[];
-        strategy_used: string;
-        execution_time_ms: number;
-        semantic_results_count: number;
-        keyword_results_count: number;
-    };
-}
-```
+1. **Official Claude Opus 4.7 announcement** — API references and Vertex AI backend IDs both present; the shoe drops any day.
+2. **Anthropic design tool launch** — likely bundled with 4.7; expect more pressure on Figma/Wix/Adobe.
+3. **LlamaCon (week of April 14)** — Meta's event, watch for additional Muse Spark detail and possibly open-source positioning.
+4. **OpenAI announcements** — the week of April 14 was flagged by multiple analysts as "potentially one of the busiest in AI history"; Codex and ChatGPT Pro tier updates rumored.
+5. **Google I/O runway** — Gemini 3.5 / Gemini 4 / DeepSeek 4 expectations building; nothing official yet.
 
 ---
 
-## 6. Chat Interface
+## Sources
 
-### 6.1 Data Model
-
-```sql
-CREATE TABLE chat_sessions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    workspace_id UUID REFERENCES workspaces(id) ON DELETE CASCADE NOT NULL,
-    user_id UUID REFERENCES users(id) NOT NULL,
-    title VARCHAR(500),
-    model VARCHAR(100) NOT NULL,
-    persona_id VARCHAR(50),
-    dataset_ids UUID[] NOT NULL DEFAULT '{}',
-    retrieval_strategy VARCHAR(30),
-    system_prompt_override TEXT,
-    context_summary TEXT,
-    message_count INTEGER NOT NULL DEFAULT 0,
-    is_archived BOOLEAN NOT NULL DEFAULT false,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE TABLE chat_messages (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    session_id UUID REFERENCES chat_sessions(id) ON DELETE CASCADE NOT NULL,
-    role VARCHAR(20) NOT NULL CHECK (role IN ('user', 'assistant', 'system')),
-    content TEXT NOT NULL,
-    model_used VARCHAR(100),
-    token_count_prompt INTEGER,
-    token_count_completion INTEGER,
-    retrieval_result_ids UUID[],
-    context_assembly_id UUID,
-    processing_time_ms INTEGER,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE TABLE chat_pinned_facts (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    session_id UUID REFERENCES chat_sessions(id) ON DELETE CASCADE NOT NULL,
-    content TEXT NOT NULL,
-    pinned_by UUID REFERENCES users(id) NOT NULL,
-    source_message_id UUID REFERENCES chat_messages(id) ON DELETE SET NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE TABLE context_assemblies (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    session_id UUID REFERENCES chat_sessions(id) ON DELETE CASCADE NOT NULL,
-    message_id UUID REFERENCES chat_messages(id) ON DELETE CASCADE,
-    system_prompt TEXT NOT NULL,
-    retrieved_chunks JSONB NOT NULL,
-    conversation_history JSONB NOT NULL,
-    pinned_facts JSONB NOT NULL DEFAULT '[]',
-    user_query TEXT NOT NULL,
-    total_prompt_tokens INTEGER,
-    model VARCHAR(100) NOT NULL,
-    temperature REAL NOT NULL,
-    retrieval_strategy VARCHAR(30),
-    retrieval_debug JSONB,
-    response_text TEXT,
-    response_tokens INTEGER,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-```
-
-### 6.2 Session Memory Management
-
-1. **Rolling summarization:** After N messages (default 10), generate summary via lightweight model. Store in `chat_sessions.context_summary`.
-2. **Token budgeting:** Allocate context window across system prompt (fixed), retrieved chunks (40-60%), conversation history (20-30%), and generation headroom.
-3. **Pinned facts:** Users pin important facts; always included regardless of summarization.
-
-### 6.3 Chat API
-
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/api/v1/chat/sessions` | Create session |
-| `GET` | `/api/v1/chat/sessions` | List sessions |
-| `GET` | `/api/v1/chat/sessions/:id` | Get with messages |
-| `PUT` | `/api/v1/chat/sessions/:id` | Update settings |
-| `DELETE` | `/api/v1/chat/sessions/:id` | Archive |
-| `POST` | `/api/v1/chat/sessions/:id/messages` | Send message (triggers full pipeline) |
-| `GET` | `/api/v1/chat/sessions/:id/messages/:msgId/context` | Full context assembly (audit) |
-| `POST` | `/api/v1/chat/sessions/:id/pin` | Pin fact |
-| `DELETE` | `/api/v1/chat/sessions/:id/pin/:pinId` | Unpin |
-
-### 6.4 Chat UI Components
-
-**Chat Panel (Center):** Message thread, markdown rendering, clickable citation chips that expand to source chunk preview with document link.
-
-**Session Config (Top Bar / Drawer):** Model selector, dataset selector, retrieval strategy, persona, temperature, debug toggle.
-
-**Context Inspector (Right Drawer):** Retrieved chunks with scores, taxonomy expansion details, token budget visualization, raw assembled prompt, timing breakdown.
-
-**Session Sidebar (Left):** Session list, search, title editing, pinned facts panel.
-
----
-
-## 7. Taxonomy Engine
-
-### 7.1 Data Model
-
-```sql
-CREATE TABLE taxonomy_domains (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL UNIQUE,
-    description TEXT,
-    workspace_id UUID REFERENCES workspaces(id),
-    created_by UUID REFERENCES users(id) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE TABLE taxonomy_terms (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    domain_id UUID REFERENCES taxonomy_domains(id) ON DELETE CASCADE NOT NULL,
-    parent_id UUID REFERENCES taxonomy_terms(id) ON DELETE CASCADE,
-    canonical_name VARCHAR(255) NOT NULL,
-    slug VARCHAR(255) NOT NULL,
-    description TEXT,
-    sort_order INTEGER DEFAULT 0,
-    depth INTEGER NOT NULL DEFAULT 0,
-    is_leaf BOOLEAN NOT NULL DEFAULT true,
-    status VARCHAR(20) NOT NULL DEFAULT 'active'
-        CHECK (status IN ('active', 'deprecated', 'proposed')),
-    created_by UUID REFERENCES users(id) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (domain_id, slug),
-    UNIQUE (domain_id, parent_id, canonical_name)
-);
-
-CREATE TABLE taxonomy_synonyms (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    term_id UUID REFERENCES taxonomy_terms(id) ON DELETE CASCADE NOT NULL,
-    synonym VARCHAR(255) NOT NULL,
-    synonym_type VARCHAR(20) NOT NULL DEFAULT 'synonym'
-        CHECK (synonym_type IN ('synonym', 'abbreviation', 'acronym', 'alternate_spelling')),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (term_id, synonym)
-);
-
-CREATE TABLE taxonomy_term_relations (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    source_term_id UUID REFERENCES taxonomy_terms(id) ON DELETE CASCADE NOT NULL,
-    target_term_id UUID REFERENCES taxonomy_terms(id) ON DELETE CASCADE NOT NULL,
-    relation_type VARCHAR(30) NOT NULL
-        CHECK (relation_type IN ('related_to', 'see_also', 'broader_than', 'narrower_than', 'replaces', 'replaced_by')),
-    created_by UUID REFERENCES users(id) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (source_term_id, target_term_id, relation_type)
-);
-
-CREATE TABLE document_tags (
-    document_id UUID REFERENCES documents(id) ON DELETE CASCADE NOT NULL,
-    term_id UUID REFERENCES taxonomy_terms(id) ON DELETE CASCADE NOT NULL,
-    confidence REAL,
-    assigned_by UUID REFERENCES users(id),
-    assignment_method VARCHAR(20) NOT NULL DEFAULT 'manual'
-        CHECK (assignment_method IN ('manual', 'auto_ingest', 'auto_llm', 'bulk_import')),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    PRIMARY KEY (document_id, term_id)
-);
-
-CREATE TABLE chunk_tags (
-    chunk_id UUID REFERENCES chunks(id) ON DELETE CASCADE NOT NULL,
-    term_id UUID REFERENCES taxonomy_terms(id) ON DELETE CASCADE NOT NULL,
-    confidence REAL,
-    assignment_method VARCHAR(20) NOT NULL DEFAULT 'auto_llm'
-        CHECK (assignment_method IN ('manual', 'auto_ingest', 'auto_llm', 'inherited')),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    PRIMARY KEY (chunk_id, term_id)
-);
-
-CREATE INDEX idx_taxonomy_terms_parent ON taxonomy_terms(parent_id);
-CREATE INDEX idx_taxonomy_terms_domain ON taxonomy_terms(domain_id);
-CREATE INDEX idx_taxonomy_synonyms_value ON taxonomy_synonyms(synonym);
-CREATE INDEX idx_taxonomy_synonyms_trigram ON taxonomy_synonyms USING GIN (synonym gin_trgm_ops);
-```
-
-### 7.2 Term Resolution
-
-Precedence: exact canonical match → exact synonym match → fuzzy match (Levenshtein ≤ 2) → no match. Cached in-memory, TTL 5 minutes.
-
-### 7.3 Taxonomy API
-
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/api/v1/taxonomy/domains` | Create domain |
-| `GET` | `/api/v1/taxonomy/domains` | List domains |
-| `GET` | `/api/v1/taxonomy/domains/:id` | Get with top-level terms |
-| `PUT` | `/api/v1/taxonomy/domains/:id` | Update |
-| `DELETE` | `/api/v1/taxonomy/domains/:id` | Soft-delete |
-| `POST` | `/api/v1/taxonomy/domains/:id/terms` | Create term |
-| `GET` | `/api/v1/taxonomy/domains/:id/terms` | Full term tree |
-| `GET` | `/api/v1/taxonomy/terms/:id` | Term with synonyms and relations |
-| `PUT` | `/api/v1/taxonomy/terms/:id` | Update term |
-| `DELETE` | `/api/v1/taxonomy/terms/:id` | Soft-delete |
-| `POST` | `/api/v1/taxonomy/terms/:id/synonyms` | Add synonym |
-| `DELETE` | `/api/v1/taxonomy/terms/:termId/synonyms/:synId` | Remove synonym |
-| `POST` | `/api/v1/taxonomy/terms/:id/relations` | Create relation |
-| `GET` | `/api/v1/taxonomy/resolve` | Resolve string to terms |
-| `GET` | `/api/v1/taxonomy/search` | Search terms and synonyms |
-| `GET` | `/api/v1/taxonomy/terms/:id/expansion` | Get expanded set for retrieval |
-| `POST` | `/api/v1/taxonomy/domains/:id/import` | Import from CSV/JSON |
-| `GET` | `/api/v1/taxonomy/domains/:id/export` | Export domain |
-| `GET` | `/api/v1/taxonomy/proposed` | Proposed terms queue |
-| `POST` | `/api/v1/taxonomy/proposed/:id/approve` | Approve |
-| `POST` | `/api/v1/taxonomy/proposed/:id/reject` | Reject |
-| `POST` | `/api/v1/taxonomy/proposed/:id/merge` | Merge as synonym |
-
-### 7.4 Prebuilt Templates
-
-- NIST 800-53 Rev 5 (20 families, ~1,100 controls)
-- CMMC 2.0 (3 levels, 14 domains, 110 practices)
-- FedRAMP baselines (Low/Moderate/High)
-- CUI category markings
-- Military document types (OPORD, FRAGORD, WARNORD, SOP, TM, AR, etc.)
-
-### 7.5 Taxonomy UI
-
-**Manager (Admin):** Tree view, drag-and-drop, inline edit, synonym panel, import/export, proposed queue, usage stats.
-
-**Picker (Reusable):** Typeahead, hierarchical dropdown, multi-select chips. Used across document upload, chunk detail, wiki editor, retrieval config.
-
----
-
-## 8. Dataset Wiki
-
-### 8.1 Data Model
-
-```sql
-CREATE TABLE wikis (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name VARCHAR(255) NOT NULL,
-    description TEXT,
-    workspace_id UUID REFERENCES workspaces(id),
-    generation_status VARCHAR(20) NOT NULL DEFAULT 'pending'
-        CHECK (generation_status IN ('pending', 'generating', 'ready', 'error', 'stale')),
-    last_generated_at TIMESTAMPTZ,
-    generation_config JSONB NOT NULL DEFAULT '{}',
-    created_by UUID REFERENCES users(id) NOT NULL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE TABLE wiki_datasets (
-    wiki_id UUID REFERENCES wikis(id) ON DELETE CASCADE NOT NULL,
-    dataset_id UUID REFERENCES datasets(id) ON DELETE CASCADE NOT NULL,
-    PRIMARY KEY (wiki_id, dataset_id)
-);
-
-CREATE TABLE wiki_pages (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    wiki_id UUID REFERENCES wikis(id) ON DELETE CASCADE NOT NULL,
-    parent_page_id UUID REFERENCES wiki_pages(id) ON DELETE SET NULL,
-    title VARCHAR(500) NOT NULL,
-    slug VARCHAR(500) NOT NULL,
-    page_type VARCHAR(30) NOT NULL DEFAULT 'topic'
-        CHECK (page_type IN ('topic', 'document_summary', 'index', 'custom')),
-    content_markdown TEXT NOT NULL,
-    content_status VARCHAR(20) NOT NULL DEFAULT 'draft'
-        CHECK (content_status IN ('draft', 'review', 'published', 'archived')),
-    generated_by_model VARCHAR(100),
-    generation_prompt TEXT,
-    sort_order INTEGER DEFAULT 0,
-    created_by UUID REFERENCES users(id),
-    published_by UUID REFERENCES users(id),
-    published_at TIMESTAMPTZ,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (wiki_id, slug)
-);
-
-CREATE TABLE wiki_page_sources (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    page_id UUID REFERENCES wiki_pages(id) ON DELETE CASCADE NOT NULL,
-    chunk_id UUID REFERENCES chunks(id) ON DELETE CASCADE NOT NULL,
-    relevance_score REAL,
-    usage_type VARCHAR(20) NOT NULL DEFAULT 'supporting'
-        CHECK (usage_type IN ('primary', 'supporting', 'referenced', 'cross_ref')),
-    source_section_label VARCHAR(255),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now()
-);
-
-CREATE TABLE wiki_cross_references (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    source_page_id UUID REFERENCES wiki_pages(id) ON DELETE CASCADE NOT NULL,
-    target_page_id UUID REFERENCES wiki_pages(id) ON DELETE CASCADE NOT NULL,
-    reference_type VARCHAR(30) NOT NULL
-        CHECK (reference_type IN ('related', 'depends_on', 'supersedes', 'implements', 'references')),
-    context TEXT,
-    detected_by VARCHAR(20) NOT NULL DEFAULT 'auto',
-    confidence REAL,
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (source_page_id, target_page_id, reference_type)
-);
-
-CREATE TABLE wiki_page_revisions (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    page_id UUID REFERENCES wiki_pages(id) ON DELETE CASCADE NOT NULL,
-    revision_number INTEGER NOT NULL,
-    content_markdown TEXT NOT NULL,
-    edit_summary VARCHAR(500),
-    edited_by UUID REFERENCES users(id) NOT NULL,
-    edit_type VARCHAR(20) NOT NULL DEFAULT 'manual'
-        CHECK (edit_type IN ('manual', 'auto_generated', 'auto_refreshed', 'bulk_update')),
-    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (page_id, revision_number)
-);
-
-CREATE TABLE wiki_page_tags (
-    page_id UUID REFERENCES wiki_pages(id) ON DELETE CASCADE NOT NULL,
-    term_id UUID REFERENCES taxonomy_terms(id) ON DELETE CASCADE NOT NULL,
-    is_primary BOOLEAN NOT NULL DEFAULT false,
-    PRIMARY KEY (page_id, term_id)
-);
-
-CREATE TABLE wiki_coverage_expectations (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    wiki_id UUID REFERENCES wikis(id) ON DELETE CASCADE NOT NULL,
-    term_id UUID REFERENCES taxonomy_terms(id) ON DELETE CASCADE NOT NULL,
-    is_required BOOLEAN NOT NULL DEFAULT false,
-    expected_depth VARCHAR(20) NOT NULL DEFAULT 'summary'
-        CHECK (expected_depth IN ('mention', 'summary', 'detailed')),
-    actual_page_id UUID REFERENCES wiki_pages(id) ON DELETE SET NULL,
-    coverage_status VARCHAR(20) NOT NULL DEFAULT 'missing'
-        CHECK (coverage_status IN ('missing', 'partial', 'covered', 'excess')),
-    last_assessed_at TIMESTAMPTZ,
-    UNIQUE (wiki_id, term_id)
-);
-
-CREATE INDEX idx_wiki_pages_wiki ON wiki_pages(wiki_id);
-CREATE INDEX idx_wiki_pages_fts ON wiki_pages USING GIN (to_tsvector('english', content_markdown));
-CREATE INDEX idx_wiki_page_sources_page ON wiki_page_sources(page_id);
-CREATE INDEX idx_wiki_page_sources_chunk ON wiki_page_sources(chunk_id);
-```
-
-### 8.2 Generation Pipeline
-
-**Phase 1 — Topic Discovery:** Cluster chunks by embedding similarity. Label clusters with dominant taxonomy terms or LLM-generated labels. Merge similar clusters.
-
-**Phase 2 — Page Generation:** For each cluster, select top chunks, generate summarized page via LLM with mandatory inline citations. Parse citations into `wiki_page_sources`.
-
-**Phase 3 — Document Summaries:** Generate structured summary page per source document.
-
-**Phase 4 — Cross-References:** Pairwise page embedding similarity + regex citation detection (MIL-STD, NIST SP, FAR/DFARS, AR, TM patterns).
-
-**Phase 5 — Indexes:** Root TOC, domain indexes, document index, coverage dashboard page.
-
-**Staleness:** Monitor for dataset changes. Flag affected pages. Queue targeted refresh. Preserve manual edits.
-
-**Configuration:**
-```typescript
-interface WikiGenerationConfig {
-    topic_discovery: {
-        clustering_distance_threshold: number;  // default: 0.35
-        merge_similarity_threshold: number;     // default: 0.75
-        min_cluster_size: number;               // default: 3
-        max_topics: number;                     // default: 200
-        model_for_labeling: string;             // default: "gpt-4o-mini"
-    };
-    summarization: {
-        model: string;
-        max_chunks_per_summary: number;         // default: 20
-        summary_target_length: string;          // default: "500-1000 words"
-        include_source_citations: boolean;      // default: true
-    };
-    cross_references: {
-        similarity_threshold: number;           // default: 0.7
-        max_refs_per_page: number;              // default: 10
-        detect_regulatory_refs: boolean;        // default: true
-    };
-    publishing: {
-        auto_publish: boolean;                  // default: false
-        require_review: boolean;                // default: true
-    };
-}
-```
-
-### 8.3 Wiki API
-
-| Method | Path | Description |
-|---|---|---|
-| `POST` | `/api/v1/wikis` | Create wiki |
-| `GET` | `/api/v1/wikis` | List wikis |
-| `GET` | `/api/v1/wikis/:id` | Detail and status |
-| `PUT` | `/api/v1/wikis/:id` | Update config |
-| `DELETE` | `/api/v1/wikis/:id` | Soft-delete |
-| `POST` | `/api/v1/wikis/:id/generate` | Full generation |
-| `POST` | `/api/v1/wikis/:id/refresh` | Incremental refresh |
-| `GET` | `/api/v1/wikis/:id/status` | Generation progress |
-| `GET` | `/api/v1/wikis/:wikiId/pages` | List pages |
-| `GET` | `/api/v1/wikis/:wikiId/pages/:slug` | Page with sources/cross-refs |
-| `PUT` | `/api/v1/wikis/pages/:id` | Edit page (creates revision) |
-| `POST` | `/api/v1/wikis/pages/:id/publish` | Publish |
-| `GET` | `/api/v1/wikis/pages/:id/revisions` | History |
-| `POST` | `/api/v1/wikis/pages/:id/revisions/:revId/restore` | Restore |
-| `GET` | `/api/v1/wikis/pages/:id/sources` | Source chunks |
-| `GET` | `/api/v1/wikis/pages/:id/cross-references` | Cross-refs |
-| `POST` | `/api/v1/wikis/:wikiId/pages` | Create custom page |
-| `GET` | `/api/v1/wikis/:wikiId/index` | TOC tree |
-| `GET` | `/api/v1/wikis/:wikiId/search` | Full-text search |
-| `GET` | `/api/v1/wikis/:wikiId/graph` | Cross-ref graph data |
-| `GET` | `/api/v1/wikis/:wikiId/coverage` | Coverage report |
-| `POST` | `/api/v1/wikis/:wikiId/coverage/expectations` | Define expectations |
-| `POST` | `/api/v1/wikis/:wikiId/coverage/assess` | Run assessment |
-
-### 8.4 Wiki UI
-
-**Browser (3-panel):** Left TOC tree → Center page renderer with citation chips → Right sources/tags/cross-refs/revisions panel.
-
-**Editor:** Split-pane markdown with chunk insertion tool, taxonomy picker, cross-ref creator, edit summary.
-
-**Coverage Dashboard:** Taxonomy terms × status matrix, color-coded, clickable, CSV export.
-
-**Knowledge Graph:** D3 force-directed, nodes = pages, edges = cross-refs, filterable.
-
-**Generation Monitor:** Phase progress, real-time log, ETA, cancel.
-
-### 8.5 Wiki ↔ Retrieval Integration
-
-Wiki pages can be embedded and included in retrieval. Chat responses citing a chunk can link to the relevant wiki page.
-
----
-
-## 9. Audit & Observability
-
-### 9.1 Data Model
-
-```sql
-CREATE TABLE audit_logs (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    timestamp TIMESTAMPTZ NOT NULL DEFAULT now(),
-    user_id UUID REFERENCES users(id),
-    workspace_id UUID REFERENCES workspaces(id),
-    action VARCHAR(100) NOT NULL,
-    entity_type VARCHAR(50) NOT NULL,
-    entity_id UUID,
-    details JSONB NOT NULL DEFAULT '{}',
-    ip_address INET,
-    user_agent TEXT,
-    session_id UUID
-);
-
-CREATE INDEX idx_audit_logs_user ON audit_logs(user_id);
-CREATE INDEX idx_audit_logs_action ON audit_logs(action);
-CREATE INDEX idx_audit_logs_entity ON audit_logs(entity_type, entity_id);
-CREATE INDEX idx_audit_logs_timestamp ON audit_logs(timestamp);
-```
-
-### 9.2 Audited Actions
-
-Authentication, chat messages/responses, document upload/parse/chunk/embed/delete, dataset CRUD, retrieval execution, context assembly, wiki generation/edit/publish, taxonomy CRUD/approve/reject, tag assignments.
-
-### 9.3 Provenance Chain
-
-Reconstruct full decision pipeline for any AI output:
-
-```
-User Query → Retrieval Log (query, expansion, strategy, results)
-           → Context Assembly (prompt, chunks, history)
-           → Model Invocation (model, params, timing)
-           → Response (text, tokens)
-           → Source Chain (citation → chunk → section → document → file)
-```
-
-### 9.4 Audit API
-
-| Method | Path | Description |
-|---|---|---|
-| `GET` | `/api/v1/audit/logs` | Query (filter by user, action, entity, date, workspace) |
-| `GET` | `/api/v1/audit/logs/:id` | Detail |
-| `GET` | `/api/v1/audit/entity/:type/:id` | All logs for an entity |
-| `GET` | `/api/v1/audit/export` | Export CSV/JSON |
-| `GET` | `/api/v1/audit/chat/:sessionId/provenance` | Full provenance chain |
-
----
-
-## 10. Security & Access Control
-
-### 10.1 Workspace Roles → Permissions
-
-| Role | Permissions |
-|---|---|
-| `viewer` | Read published wiki, read workspace content |
-| `member` | + upload docs, read drafts, use chat |
-| `editor` | + edit wiki, manage taxonomy, manage datasets |
-| `admin` | All permissions including workspace config, audit, user management |
-
-### 10.2 Classification Inheritance
-
-Documents inherit workspace floor. Chunks inherit document. Wiki pages inherit highest source chunk classification. Cannot override downward.
-
-### 10.3 Data Isolation
-
-All queries scoped to workspace. pgvector searches pre-filtered to dataset scope.
-
----
-
-## 11. Background Jobs
-
-| Queue | Purpose | Concurrency |
-|---|---|---|
-| `document-parsing` | Parse uploads | 5 |
-| `document-chunking` | Chunk documents | 5 |
-| `document-embedding` | Generate embeddings | 3 |
-| `auto-tagging` | Taxonomy tagging | 5 |
-| `wiki-generation` | Full wiki generation | 1 per wiki |
-| `wiki-refresh` | Incremental refresh | 3 |
-| `page-generation` | Individual pages | 5 |
-| `cross-ref-detection` | Cross-reference scan | 3 |
-| `context-summarization` | Chat history summarization | 5 |
-| `coverage-assessment` | Coverage analysis | 2 |
-
-LLM jobs: exponential backoff, 3 retries. Dead letter queue for persistent failures. Token budgets enforced per job.
-
----
-
-## 12. Frontend Structure
-
-### 12.1 Routes
-
-| View | Route | Description |
-|---|---|---|
-| Chat | `/chat` `/chat/:sessionId` | Conversational interface |
-| Wiki | `/wiki/:wikiId` `/wiki/:wikiId/:slug` | Knowledge base |
-| Wiki Editor | `/wiki/:wikiId/:slug/edit` | Page editing |
-| Documents | `/documents` `/documents/:id` | Upload, list, inspect |
-| Datasets | `/datasets` `/datasets/:id` | Dataset management |
-| Taxonomy | `/taxonomy` `/taxonomy/:domainId` | Term management |
-| Coverage | `/wiki/:wikiId/coverage` | Coverage dashboard |
-| Graph | `/wiki/:wikiId/graph` | Knowledge graph |
-| Audit | `/admin/audit` | Log viewer |
-| Settings | `/admin/settings` | Workspace config |
-
-### 12.2 Shared Components
-
-`TaxonomyPicker`, `SourceCitationChip`, `ChunkPreview`, `ModelSelector`, `DatasetSelector`, `MarkdownRenderer`, `RetrievalDebugPanel`, `ProcessingStatusBadge`
-
----
-
-## 13. Docker Compose
-
-```yaml
-services:
-  frontend:
-    build: ./frontend
-    ports: ["3000:3000"]
-    depends_on: [backend]
-
-  backend:
-    build: ./backend
-    ports: ["3001:3001"]
-    depends_on: [postgres, redis]
-    environment:
-      - DATABASE_URL=postgresql://app:password@postgres:5432/asksage_enhanced
-      - REDIS_URL=redis://redis:6379
-      - ASKSAGE_BASE_URL=https://api.asksage.ai
-      - ENCRYPTION_KEY=${ENCRYPTION_KEY}
-
-  postgres:
-    image: pgvector/pgvector:pg16
-    ports: ["5432:5432"]
-    environment:
-      - POSTGRES_DB=asksage_enhanced
-      - POSTGRES_USER=app
-      - POSTGRES_PASSWORD=password
-    volumes: [pgdata:/var/lib/postgresql/data]
-
-  redis:
-    image: redis:7-alpine
-    ports: ["6379:6379"]
-
-volumes:
-  pgdata:
-```
-
----
-
-## 14. Implementation Phases
-
-### Phase 1: Foundation (Week 1-3)
-NestJS scaffolding, Postgres schema, Ask Sage proxy (auth, models, personas), document upload/parse/chunk/embed pipeline, basic React shell with document management views.
-
-**Exit:** Upload a document, watch it process, inspect chunks and sections.
-
-### Phase 2: Retrieval & Chat (Week 4-5)
-Retrieval engine (semantic/keyword/hybrid), context assembly, chat sessions, enhanced query flow, chat UI with citations, context inspector.
-
-**Exit:** Chat grounded in local documents with visible provenance.
-
-### Phase 3: Taxonomy (Week 6-7)
-Taxonomy CRUD, manager UI, prebuilt templates, picker component, query expansion, auto-tagging, proposed terms queue.
-
-**Exit:** Import NIST 800-53, auto-tag documents, expand queries via synonyms.
-
-### Phase 4: Wiki Core (Week 8-10)
-Wiki generation pipeline, topic discovery, page generation, document summaries, browser UI, editing with revisions, generation monitor.
-
-**Exit:** Generate browsable wiki from dataset with source citations.
-
-### Phase 5: Cross-References & Coverage (Week 11-12)
-Cross-ref detection, knowledge graph, search, indexes, coverage system, wiki-enhanced retrieval, staleness detection.
-
-**Exit:** Navigate cross-references, see coverage gaps, refresh stale content.
-
-### Phase 6: Audit & Polish (Week 13-14)
-Audit logging, provenance reconstruction, log viewer/export, classification enforcement, permissions, caching, error handling, export (wiki→PDF, taxonomy→CSV).
-
-**Exit:** Full provenance chain for any output. All operations audited.
-
----
-
-## 15. Performance Targets
-
-| Metric | Target |
-|---|---|
-| Document upload to ready (10p PDF) | < 60s |
-| Document upload to ready (100p PDF) | < 5 min |
-| Hybrid retrieval (100K chunks) | < 500ms |
-| Chat to first response | < 3s |
-| Wiki page load | < 500ms |
-| Wiki search | < 200ms |
-| Wiki generation (1K chunks) | < 10 min |
-| Taxonomy resolution | < 50ms |
-| Coverage assessment (1K expectations) | < 30s |
-
----
-
-## 16. Open Questions
-
-1. **Streaming:** Does Ask Sage's OpenAI-compatible endpoint support SSE streaming? Critical for chat UX.
-2. **Embedding provider:** Proxy through Ask Sage or call directly? Direct is faster/cheaper for prototype.
-3. **Multi-language:** Multilingual taxonomy synonyms? Multi-language wiki generation?
-4. **Collaborative editing:** Single-user with revisions, or CRDT-based real-time collab?
-5. **Cross-dataset access control:** When a wiki spans datasets with different access policies, restrict by most conservative policy?
-6. **Offline/DDIL mode:** Static export for air-gapped environments?
-7. **Ask Sage feature stubs:** Include Workbook/Code Canvas/Prose Canvas as pass-through stubs for demo completeness?
-8. **Re-embedding migration:** Background re-embed when better models arrive? Side-by-side vector stores?
-
----
-
-## Appendix A: Ask Sage API Usage Map
-
-### Proxied
-`POST /server/get-models`, `POST /server/get-personas`, `POST /server/get-plugins`, `POST /server/query-plugin`, `POST /server/execute-agent`, `POST /server/get-text-to-speech`, `GET /server/count-monthly-tokens`, `POST /user/get-token-with-api-key`
-
-### Used for Inference (backend only)
-`POST /server/query`, `POST /server/openai/v1/chat/completions`
-
-### Replaced
-`POST /server/train`, `POST /server/train-with-file`, `POST /server/get-datasets`, `POST /server/file`, `POST /user/add-dataset`, `POST /user/delete-datasets`, `POST /user/get-chats`, `POST /user/get-chat-session`
-
-## Appendix B: LLM Prompt Templates
-
-### Wiki Topic Labeling
-```
-Given the following text passages from government/defense documents, generate a concise
-topic label (3-8 words). Do not use generic labels. Be specific.
-
-Passages:
-{passages}
-
-Respond with only the label.
-```
-
-### Wiki Page Generation
-```
-Generate a knowledge base article for a government technical wiki.
-
-TOPIC: {topic_label}
-TAXONOMY: {taxonomy_path}
-SOURCE MATERIAL: {formatted_chunks}
-
-Requirements: Use ONLY sources provided. Cite every claim: [Source: {doc}, §{section}].
-Note contradictions. Add "Coverage Gaps" section if insufficient. End with Sources table.
-Target: {target_length}. Professional tone.
-```
-
-### Cross-Reference Detection
-```
-Analyze two articles for relationships. Respond JSON only:
-{"is_related": bool, "relationship_type": "related|depends_on|supersedes|implements|references|none", "confidence": 0.0-1.0, "explanation": "..."}
-
-ARTICLE A: "{title_a}" {summary_a}
-ARTICLE B: "{title_b}" {summary_b}
-```
-
-### Auto-Tagging
-```
-Extract 3-5 important topics from this passage. Return topic names only, one per line.
-Be specific — prefer "FedRAMP continuous monitoring" over "compliance."
-
-{chunk_text}
-```
-
-### Chat Context Summarization
-```
-Summarize preserving: key decisions, facts established, open questions, user constraints.
-150-300 words.
-
-{messages}
-```
+Primary reporting drawn from: *The Information*, *Bloomberg*, *Reuters*, *WIRED*, *CNBC*, *MIT Technology Review* (Stanford AI Index 2026), *Dataconomy*, *TechBriefly*, *PYMNTS*, *MIT Sloan Management Review Middle East*, *TechCrunch*, *Fortune*, Anthropic release notes, OpenAI announcements, PwC 2026 AI Performance Study, Deloitte 2026 State of AI, Stanford Digital Economy Lab Enterprise AI Playbook, World Economic Forum MINDS, The CTO Advisor, and industry analysis from Kai Waehner, Radical Data Science, and What LLM.
