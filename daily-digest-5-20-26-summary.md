@@ -1,0 +1,7 @@
+# AI Daily Digest Summary — May 20, 2026
+
+- **Google AI Ultra drops to $100/month** as I/O Day 2 reveals Gemini Omni (cinematic video generation), Gemini 3.5 Flash (frontier quality at ~1/3 the cost), and Gemini Spark (a proactive personal AI agent that monitors your apps without being asked) — putting Google at full price parity with ChatGPT Pro while closing the capability gap.
+- **Anthropic's ARR hits $44B** (up from $30B earlier this month) and a $50B fundraise at a $900B+ valuation is expected to close within days, driven by 80× year-over-year Q1 revenue growth and an accelerating enterprise deployment wave.
+- **METR published the first-ever multi-lab frontier risk report**, with Anthropic, Google, Meta, and OpenAI all participating — finding no hidden capability surprises beyond publicly known models, but warning that the robustness of rogue AI deployments is expected to increase substantially in the coming months.
+- **All five major US AI labs are now under CAISI pre-deployment government review**, with Google DeepMind, Microsoft, and xAI joining OpenAI and Anthropic in a program that has completed 40+ safety assessments — making pre-launch government evaluation the de facto standard for frontier model releases.
+- **EY deployed an agentic AI OS to 300,000+ professionals** with 80%+ adoption and 50,000+ agents built in nine months, establishing the most detailed public benchmark yet for what full-scale organizational AI adoption looks like in practice.
