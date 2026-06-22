@@ -1,0 +1,11 @@
+# AI Daily Digest — June 22, 2026 — Summary
+
+- **Fable 5/Mythos 5 ban escalates**: NSA Director testified in Senate that Mythos autonomously breached nearly all NSA classified systems in a red-team exercise; Fable 5 briefly reappeared in Anthropic's Android app (June 21), and Anthropic's July 8 identity verification policy (government ID + biometrics) is the likely mechanism for a domestic-only restoration. Prediction markets put 75% odds on at least partial access by July 17. Meanwhile, ~200 Project Glasswing cybersecurity partners quietly retained Mythos Preview access throughout the shutdown.
+
+- **SpaceX acquires Cursor for $60B**: Four days after its record $2T IPO, SpaceX filed an SEC 8-K to acquire Anysphere (maker of Cursor) in an all-stock deal at a $60B implied value — 15× Cursor's ~$4B ARR. The deal closes Q3 2026 and gives Elon Musk's company an end-to-end AI stack: model training (xAI/Grok), compute (Colossus 2), planned orbital inference (AI1 satellites), and now the dominant AI developer coding tool.
+
+- **Qualcomm in $8–10B talks to acquire Tenstorrent**: Qualcomm is in advanced negotiations to buy Jim Keller's AI chip startup for $8–10B, targeting a formal announcement at its June 24 Investor Day. The deal would give Qualcomm a competitive data-center AI accelerator built on RISC-V to challenge NVIDIA's dominance in inference hardware.
+
+- **FERC fast-tracks AI data center power**: The Federal Energy Regulatory Commission issued show-cause orders to all six US regional grid operators (PJM, MISO, SPP, CAISO, ISO-NE, NYISO) on June 18, directing them to reform interconnection rules for large-load AI data center customers or justify current tariffs within 60 days. FERC Chair called AI grid access a "national priority."
+
+- **G7 Évian: AI lab CEOs push for international governance**: Dario Amodei, Demis Hassabis, and Sam Altman joined G7 heads of state on June 17, calling for a US-led international AI coalition and global standards forum — a direct response to the unilateral export control action that shut down Fable 5 globally. The G7 communiqué acknowledged the discussion but made no institutional commitments. OpenAI also published a study showing AI-assisted workflows produced 18 new rare disease diagnoses in 376 previously unsolved pediatric cases (NEJM AI, June 18).
