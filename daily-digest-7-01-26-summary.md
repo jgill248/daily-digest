@@ -1,0 +1,7 @@
+# Daily AI Digest Summary — July 1, 2026
+
+- **Anthropic's biggest day of the year:** On June 30, Anthropic launched Claude Sonnet 5 (cheaper, more agentic default model, closing in on Opus 4.8) and Claude Science (a new flagship for biology/pharma research), while also getting Commerce Department export controls on Claude Fable 5 and Mythos 5 lifted.
+- **Gemini and GPT-5.6 updates:** Google confirmed a July GA target for Gemini 3.5 Pro (2M-token context) and pushed Gemini 3.5 Flash to full availability, while OpenAI's GPT-5.6 Sol remains gated behind a Trump-administration vetting process it says shouldn't become permanent.
+- **Dev tooling matures fast:** GitHub Copilot Agent landed natively in JetBrains, Pydantic AI v2 went stable, Vercel shipped AI SDK 7 with MCP Apps support, and MCP published a release candidate making the protocol stateless at its core — all signs the agentic-tooling ecosystem is consolidating.
+- **Enterprise AI ROI is now measured, not projected:** Customers Bank cut commercial loan closing time from 30-45 days to ~7 days with on-site OpenAI engineers, PwC found AI-ready firms growing headcount 52% vs. 36% for laggards, and hospital systems reported 20-30% burnout reductions from ambient AI documentation.
+- **Government AI adoption accelerated:** California became the first state to offer Claude to all state agencies at half price, alongside the State Department's StateChat tool now used by ~58-60K employees across 98% of missions.
