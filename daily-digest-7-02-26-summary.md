@@ -1,0 +1,7 @@
+# Daily AI Digest Summary — July 2, 2026
+
+- **OpenAI floats a 5% government equity stake:** Sam Altman reportedly opened talks to give Washington a ~$42.6B stake in OpenAI, part of a proposed framework that could extend 5% government stakes to Anthropic, Google, and Meta too — a major escalation beyond the existing government-vetting arrangements for frontier models.
+- **Claude Fable 5 is back with a new security classifier:** Anthropic redeployed Fable 5 globally on July 1 with a classifier blocking the exploit that triggered its June shutdown in 99%+ of cases, though one unverified researcher claims a different jailbreak still works.
+- **Meta wants to sell its spare AI compute:** Bloomberg reports Meta is building "Meta Compute," a new cloud business to resell excess AI capacity and host models — directly challenging AWS, Azure, and Google Cloud; Meta stock jumped ~9% on the news.
+- **Claude Sonnet 5 is spreading fast across dev tools:** Within two days of its default-model launch, Sonnet 5 landed in AWS Kiro (now 1.0, with 1M-token context) and GitHub Copilot CLI, while Anthropic also shipped an enterprise "Apps Gateway" for Bedrock/Google Cloud/Azure.
+- **AI layoffs are getting more complicated:** British American Tobacco is cutting ~9,000 jobs in an AI-driven restructuring, even as new Orgvue/CNBC research shows 55% of leaders who made AI-driven cuts now call it a mistake — with Ford and IBM both publicly rehiring.
