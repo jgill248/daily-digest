@@ -1,0 +1,7 @@
+# Daily AI Digest Summary — July 6, 2026
+
+- **Meta's AI story got more complicated:** Zuckerberg told staff Meta's AI agents "haven't accelerated" as hoped despite a massive reorg, even as AI chief Alexandr Wang claimed Meta's unreleased "Watermelon" model has caught up to GPT-5.5 — with no benchmarks or release date to back it up.
+- **The US-China AI rift hit the product layer:** Claude Code was found to have shipped hidden code detecting Chinese users since April; Anthropic removed it and is separately closing offshore loopholes (Singapore accounts, VPNs) that let Chinese firms reach Claude, prompting Alibaba to ban the tool company-wide starting July 10.
+- **The AI-cost reckoning is now HR policy:** Tesla capped employee AI spending at $200/week (joining Uber, Meta, Amazon, and Walmart), while Anthropic simultaneously shipped new Claude Enterprise spend alerts and model-level cost controls for the same reason — agentic usage bills are outrunning budgets.
+- **Microsoft made the biggest enterprise-AI-adoption bet yet:** a new $2.5B, 6,000-person "Frontier Co." subsidiary dedicated to embedding with clients and turning AI pilots into measurable production outcomes.
+- **The jobs data got messier, not clearer:** June's weak 57,000-job gain (vs. ~110,000 expected) is partly attributed to AI displacement in tech and consulting, while Anthropic simultaneously launched an internal drug-discovery program for neglected diseases — a reminder that AI's economic effects are running in multiple directions at once.
