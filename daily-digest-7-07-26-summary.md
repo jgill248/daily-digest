@@ -1,0 +1,7 @@
+# Daily AI Digest Summary — July 7, 2026
+
+- **AI governance went to the UN:** The UN opened its first-ever Global Dialogue on AI Governance in Geneva (193 member states), with the Secretary-General warning against letting AI "vibe-code humanity's future" — a new multilateral layer alongside the ongoing US and UK regulatory efforts.
+- **Coding-model race stays gated and close:** GPT-5.6 Sol remains stuck behind US government review (prediction markets peg a July 9 public launch), while fresh benchmarks still show Claude Mythos 5 and Fable 5 leading SWE-bench Verified — and Fable 5 loses subscription coverage today, shifting to pure usage-credit billing tomorrow.
+- **Cost pressure is now visibly moving real workloads:** CNBC reported US companies are routing a record 30-46% of tokens to Chinese models as prices climb, with AI startup Lindy citing a full migration from Claude to DeepSeek that's saving it millions.
+- **Agentic AI's risks turned concrete on both sides of the ledger:** Sysdig documented JADEPUFFER, the first fully autonomous "agentic ransomware" attack, the same week the UK FCA's Mills Review flagged AI chatbots blurring into unregulated financial advice for consumers.
+- **Infrastructure bets keep outpacing demand:** Anthropic signed a $19B, 20-year data center lease with TeraWulf in Kentucky — capacity that won't come fully online until early 2028, well ahead of the models that will eventually need it.
