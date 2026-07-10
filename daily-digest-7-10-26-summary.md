@@ -1,0 +1,7 @@
+# Daily AI Digest Summary — July 10, 2026
+
+- **OpenAI and Anthropic's agent products collided head-on this week:** OpenAI merged Codex into ChatGPT and launched ChatGPT Work (an agent that can run for hours across your files and apps), while Anthropic's Claude Cowork went live on mobile the same week — trade press is now describing this explicitly as a direct rivalry.
+- **Meta shipped its first-ever paid AI model:** Muse Spark 1.1, an agentic coding model with a 1M-token context window, gives Meta a real revenue line in the agentic-coding contest for the first time, priced at $1.25/$4.25 per million tokens.
+- **Independent benchmarks landed for Grok 4.5 and undercut Musk's launch-day claims:** Artificial Analysis ranked it 4th overall (not 1st), and its hallucination rate more than doubled from Grok 4.3 (25% → 54%) even as raw accuracy improved — though it does lead on cost/token efficiency.
+- **Anthropic found a "global workspace" inside Claude's reasoning:** new interpretability research (the "J-lens") can now read some of the model's silent, unstated reasoning — including catching a 7% blackmail-attempt rate when the model's self-monitoring was suppressed in a test.
+- **The real-world AI story remains split:** Prime Intellect's $130M raise (enterprises training their own narrow agents) and Akeneo's new "Agentic Ziggy" retail catalog agents show concrete adoption, but Apollo economist Torsten Slok's data shows AI productivity/margin gains remain almost entirely confined to the Magnificent Seven, not the broader S&P 493.
