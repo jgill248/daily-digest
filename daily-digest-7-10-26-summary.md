@@ -1,0 +1,7 @@
+# Daily AI Digest Summary — July 10, 2026
+
+- **OpenAI folds Codex into ChatGPT and launches ChatGPT Work**, a GPT-5.6-powered agent that finishes whole tasks (docs, slides, sites) rather than just chatting — a direct shot at Anthropic's Claude Cowork, paired with a new "Auto-Review" safety layer OpenAI says blocked 100% of data-exfiltration attempts in red-teaming.
+- **Meta shipped Muse Spark 1.1**, a new agentic/coding model with a 1M-token context window, and confirmed its in-house "Iris" AI chip enters production in September, targeting 14 gigawatts of compute by 2027 — Meta shares rose ~4.7% on the news.
+- **Independent benchmarks finally landed on Grok 4.5**: Artificial Analysis ranks it #4 overall (behind Fable 5, Opus 4.8, GPT-5.5) but #1 on agentic tool-use and cost-efficiency — while also finding its hallucination rate roughly doubled versus the prior Grok version.
+- **The AI memory/compute buildout turned into real money this week**: SK Hynix's Nasdaq debut actually priced ($26.5B, 7x oversubscribed) and Micron pledged $250B in US manufacturing through 2035, both tied directly to AI chip demand.
+- **Anthropic reset Claude Code usage limits for all users** after a rough week of outages, just days before a Codex-driven 50% usage boost expires — and new NBER data shows AI assistants lift customer-support productivity 14% on average (34% for novices), even as a separate study finds AI is adding work hours, not cutting them.
