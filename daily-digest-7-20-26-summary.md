@@ -1,0 +1,7 @@
+# Daily AI Digest Summary — July 20, 2026
+
+- **Anthropic is in talks to lease $10B in compute from Meta** over two years — a striking sign that AI labs are increasingly renting infrastructure from their own competitors as compute scarcity outweighs rivalry.
+- **The model race is visibly recalibrating around Kimi K3:** Claude Fable 5's free-access window expired July 19 (with Opus 5 speculation swirling), xAI says Grok 4.6 finishes training this week explicitly to beat Kimi K3, and a chip-stock selloff (Nvidia testing $200, semis in a bear market) coincided with Huawei unveiling its Atlas 950 AI supernode, claimed to beat Nvidia's next-gen hardware on paper.
+- **New tools focus on trust and security:** Microsoft is building "Project Perception," a cheaper multi-model AI security tool to rival Anthropic's Mythos; Harvey acquired asset-management AI startup Benchmark and extended its Legal Agent Bench to M&A due diligence; 1Password now lets Claude log into websites without ever seeing your passwords.
+- **A judge declined to block Meta's AI-flagged layoffs** (26 workers alleging an internal AI system targeted people on leave), sending the discrimination claims to arbitration while the layoffs proceed July 22.
+- **A hack of AI music startup Suno** exposed internal code documenting large-scale, uncredited scraping of YouTube, Genius, and Deezer for training data — while a recirculated Goldman Sachs report argues AI's next big ROI wave is in factories, retail, and operating rooms, not chatbots.
