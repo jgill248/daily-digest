@@ -1,0 +1,7 @@
+# Daily AI Digest Summary — July 21, 2026
+
+- **Washington's China-AI policy debate is getting sharper:** the White House is reportedly weighing Entity List designations and federal procurement bans on Chinese open-weight models (an escalation from last week's vaguer "considering curbs" story), even as DeepSeek shipped V4 with the industry's first peak/off-peak API pricing and Alibaba previewed its 2.4-trillion-parameter Qwen3.8-Max.
+- **Neo emerged from stealth with $100M** (a16z, Bessemer) to build a real-time inventory and policy-control layer for the exploding number of AI agents, apps, and MCP servers running inside enterprises — Gartner expects 40% of enterprise apps to have agentic capabilities by year-end, up from 5% in 2025.
+- **The head of the federal government's AI safety testing agency, CAISI, abruptly resigned** just three months into the job — the second sudden departure at the agency this year, with no reason given.
+- **The Suno breach covered yesterday got much bigger:** Have I Been Pwned confirmed 55 million user accounts were exposed, including phone numbers and tens of thousands of Stripe payment records — the company never notified affected users.
+- **A months-old Claude for Chrome security flaw remains unpatched:** researchers showed rogue browser extensions can still hijack the tool's agentic actions to read Gmail, Docs, and Calendar without real user approval, despite eight version updates since Anthropic was first notified.
