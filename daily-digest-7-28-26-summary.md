@@ -1,0 +1,7 @@
+# Daily AI Digest Summary — July 28, 2026
+
+- **Nvidia founded a 37-company "Open Secure AI Alliance"** (Microsoft, Cisco, Hugging Face, IBM, and others) to build open AI-agent security tools — pointedly excluding OpenAI, Anthropic, and Google — as a direct response to OpenAI's Hugging Face breach, plus open-sourced a new agent-auditing framework called NOOA.
+- **Hundreds of private Claude conversations turned up searchable on Google**, including medical records, children's names, and internal company documents, after shared-chat links went unindexed-protected; Anthropic says no accounts were breached and has since fixed the issue.
+- **The EU's "Digital Omnibus on AI" took effect**, pushing the AI Act's high-risk compliance deadline for employment- and education-related AI systems from August 2026 to December 2027 — a 16-month delay — while tightening bans on "nudifier" and CSAM-generating tools.
+- **The Model Context Protocol shipped its biggest spec rewrite yet**, making the widely-used AI agent tooling standard fully stateless so remote MCP servers no longer need sticky sessions — an infrastructure-level change affecting most of the agent tools covered in recent digests.
+- **Gallup found only 1% of laid-off workers blame AI for their own job loss**, even as 65% say AI improved their productivity — a striking contrast to Uber, Centrica, and monday.com all publicly naming AI in their layoff announcements this week.
