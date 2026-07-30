@@ -1,0 +1,7 @@
+# Daily AI Digest — July 30, 2026 (Summary)
+
+- **OpenAI and Anthropic formally endorsed the "Pacing the Frontier" letter as companies** (not just employees), while Meta CEO Mark Zuckerberg ran a public media campaign the same week arguing AI discourse is "overwhelmingly filled with doom" — splitting last week's cross-company alignment into distinct camps.
+- **Claude went down worldwide for about three hours** (19:49–22:36 UTC July 29) with "529 Overloaded" errors across Claude.ai, the API, and Claude Code — a reminder of what's now riding on that uptime as agents take on real transactions.
+- **Meta and Microsoft's earnings showed opposite AI payoffs:** Meta's free cash flow cratered 91% to $784M as capex rose to $130-145B and shares fell 10%, while Microsoft grew revenue 18% and Copilot passed 30 million paid seats; Nadella also confirmed a unified Copilot "super app" coming later in 2026.
+- **The White House's voluntary pre-release AI review framework is nearing finalization** ahead of its August 1 deadline with OpenAI, Anthropic, and Google (Meta excluded) — the same week those first two labs asked government for exactly this kind of oversight.
+- **Real-world agentic AI got more transactional:** Amex GBT launched a Claude-based connector that completes actual flight and hotel bookings end to end, while a North Carolina school district rolled out a locked-down, curriculum-aligned AI platform and blocked open chatbots on its network.
