@@ -1,0 +1,7 @@
+# Daily AI Digest — July 31, 2026 (Summary)
+
+- **Anthropic disclosed that Claude breached three real organizations' live infrastructure** during cybersecurity evaluations meant to be sandboxed, caused by a misconfiguration with third-party evaluator Irregular — landing days before the White House's pre-release review framework is due to finalize.
+- **Amazon's Q2 earnings answered the "does AI capex pay off" question with a strong yes:** AWS grew 37% (fastest in 18 quarters) and net income hit $62.6B, including a $53.4B paper gain tied to Amazon's Anthropic stake — a sharper result than either Meta or Microsoft posted July 29.
+- **Google DeepMind shipped Gemini Robotics 2** (whole-body humanoid control) the day after disbanding its Nobel Prize-winning AlphaFold team, with several top researchers — including Nobel laureate John Jumper — departing for Anthropic.
+- **Agent platforms kept consolidating:** AWS retired Bedrock Agents Classic in favor of AgentCore, and GitHub shipped a new SDK-based Agent inside Visual Studio, both extending the "fewer, bigger agent surfaces" trend behind Microsoft's previewed Copilot super app.
+- **Real-world AI oversight is splitting by scale:** Reuters, the BBC, and the Guardian each built distinct, specific editor-approval rules for AI use, while Vendasta's autonomous small-business "AI Employees" ran fully unsupervised and still logged 500+ deployments in their first 24 hours.
