@@ -1,0 +1,7 @@
+# Daily AI Digest — August 3, 2026 (Summary)
+
+- **OpenAI's unreleased Astra model solved ten open problems in math and theoretical computer science**, publishing zero-"sorry" Lean-verified proofs (including the first-ever non-sofic group construction) for about $2,000 in compute — a rare, independently verifiable frontier-research result, not just a benchmark score.
+- **Amazon is scrapping most of its Nova model lineup** and concentrating resources on one new frontier-model bet led by Pieter Abbeel, an admission that its in-house model building hasn't kept pace with OpenAI, Anthropic, and Google even as its Anthropic stake just delivered a $53.4B paper gain.
+- **The White House's own August 1 deadline for a frontier-AI review framework passed with zero public deliverables** — no benchmarks, no disclosure framework, no OSTP statement — even as OpenAI and Anthropic have already adopted "pacing" as formal company policy.
+- **New tools shipped fast this week:** Y Combinator open-sourced QM, a model-agnostic multi-agent harness it runs its own company on; Thinking Machines released Inkling-Small, a distilled open-weight model that beats its own teacher; and DeepSeek moved V4-Flash into public API beta.
+- **Real-world AI is cutting two different ways:** an OpenAI-and-academics field report found coding agents can modernize old research software (up to 60x speedups) but can't judge their own scientific correctness, while Verizon's automation stack now resolves 85% of network issues autonomously — alongside 16,600+ job cuts since October 2025.
