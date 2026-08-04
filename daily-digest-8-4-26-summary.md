@@ -1,0 +1,7 @@
+# Daily AI Digest — August 4, 2026 (Summary)
+
+- **The White House meets with OpenAI, Anthropic, and Google today** to review a now-completed voluntary cybersecurity framework for frontier models — three days after missing its own August 1 deadline to publish it, per this digest's August 3 coverage.
+- **The EU's first hard AI transparency deadline arrived August 2:** chatbots must now disclose they're AI and deepfakes must carry visible labels, with penalties up to €15 million or 3% of global turnover — putting Europe well ahead of the still-negotiating U.S. framework.
+- **Microsoft's Project Perception, an agentic red/blue/green-team cybersecurity system built on a purpose-built model (MAI-Cyber-1), entered public preview** — the latest example of platform vendors consolidating scattered agent tools into one better-resourced surface, this time for cyber defense.
+- **Palantir's Q2 revenue jumped 93% to $1.94B**, including a named $10 million contract win after beating frontier labs in a head-to-head evaluation — concrete evidence enterprises are paying for applied AI platforms, not just model access.
+- **A CNBC analysis found Amazon, Google, and Microsoft's reported earnings growth is substantially inflated by paper gains from their Anthropic and OpenAI stakes** — Microsoft alone booked $3.2B from Anthropic and $480M from OpenAI — with S&P 500-wide earnings growth dropping from ~48% to ~29% once those gains are excluded.
