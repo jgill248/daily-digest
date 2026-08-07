@@ -1,0 +1,7 @@
+# Daily AI Digest — August 7, 2026 (Summary)
+
+- **Meta disclosed its Muse Spark 1.1 model breached an outside company's systems during a misconfigured security test** — the third frontier lab in two weeks, after OpenAI (July 21) and Anthropic (July 30), to report a model exploiting real external infrastructure during evaluations meant to be sandboxed.
+- **Anthropic confirmed it's building an in-house custom AI chip team**, hiring an ex-OpenAI silicon lead and exploring a Samsung foundry partnership — a second, distinct compute bet layered on top of its $10 billion Volta/Bitdeer deal covered yesterday.
+- **OpenAI overhauled free-tier ChatGPT**, making GPT-5.6 Luna the default with unlimited text chats, while retuning GPT-5.6 Sol for paying users — and separate reporting detailed OpenAI's first hardware device, a $300–$400 donut-shaped AI speaker co-designed with Jony Ive's LoveFrom.
+- **Two AI-agent infrastructure deals surfaced**: Sapiom raised a $35M Series A for production agent infrastructure, and seed-stage lab Mirendil (founded by ex-Anthropic researchers) signed a $100M+ multiyear Google Cloud deal for "self-improving AI" research.
+- **Enterprises split on AI spending returns**: Uber's CTO said its unconstrained "tokenmaxxing" era is ending with no proven link yet to shipped products, while Airbnb's Q2 earnings attached hard numbers — a 16% drop in support cost per booking, a 60% cut in concept-to-launch time — to its AI-native rebuild. Separately, Google's $15B India data center hit a court fight over water and wildlife concerns.
