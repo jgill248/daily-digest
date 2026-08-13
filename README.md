@@ -7,7 +7,7 @@ with sourcing for every claim.
 Each day has a full digest and, from April 30 onward, a one-page summary. Digests live under
 [`digests/`](digests/), filed by year and month:
 
-```
+```text
 digests/2026/08/2026-08-13.md          # full digest
 digests/2026/08/2026-08-13-summary.md  # 5-bullet summary
 ```

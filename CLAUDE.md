@@ -6,7 +6,7 @@ README index current.
 
 ## Where files go
 
-```
+```text
 digests/YYYY/MM/YYYY-MM-DD.md          # full digest
 digests/YYYY/MM/YYYY-MM-DD-summary.md  # short summary
 ```
@@ -77,8 +77,19 @@ Conventions in the existing digests, worth keeping:
 - **<Bolded lead clause>** — rest of the sentence with the key numbers.
 ```
 
-Five bullets, each opening with a bolded lead. The first bullet should carry the day's biggest
-story, because it becomes the README index hook.
+Three to five bullets (recent digests consistently run five), each one or two sentences and each
+opening with a bolded lead. The first bullet should carry the day's biggest story, because it
+becomes the README index hook.
+
+## Don't repeat yesterday's news
+
+A story that already ran in an earlier digest does not run again. Include it only if there is a
+genuine update — new numbers, a deal closing, a reversal — and when you do, lead with what
+changed rather than restating the original story.
+
+Check the [README.md](README.md) index before writing: it carries a one-line hook for every day,
+so scanning it is much faster than opening digests. Then read the last few days' `-summary.md`
+files in the current month folder for anything the hooks don't surface.
 
 ## Notes
 
