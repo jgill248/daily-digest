@@ -1,0 +1,7 @@
+# Daily AI Digest — August 13, 2026 (Summary)
+
+- **Anthropic is reportedly in talks to acquire Israeli "world model" startup Decart for ~$6 billion** (a 50% markup on its May valuation), landing one day after investors told the Financial Times they're modeling a $2 trillion-plus October IPO valuation for Anthropic itself — the largest debut in market history, if it holds.
+- **xAI shipped Grok 4.6**, pricing it at roughly half of rival frontier models and landing same-day in Cursor with a first-week usage promotion — the latest frontier lab competing on price and default-tool placement, not just benchmarks.
+- **AI-coding-tool valuations are re-rating fast**: Lovable confirmed a $400M round doubling its valuation to $13.3 billion, and Cognition (Devin) is reportedly in talks to raise at $40 billion-plus — both roughly 50%+ above raises from just months earlier.
+- **Enterprise AI cost anxiety hardened into standing policy**: Fortune and Forbes reported CIOs now building permanent usage caps and per-engineer AI budgets into how teams operate, with Compass's CTO citing 2026 AI budgets that "blew past expectations" without matching business value.
+- **Earnings calls cut both ways on the AI payoff question**: Cisco posted a record quarter on what its CEO called an "AI super cycle" in networking demand, while Constellation Software's management said AI is speeding up developer work but hasn't yet moved organic revenue growth.
