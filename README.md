@@ -8,8 +8,8 @@ Each day has a full digest and, from April 30 onward, a one-page summary. Digest
 [`digests/`](digests/), filed by year and month:
 
 ```text
-digests/2026/08/2026-08-13.md          # full digest
-digests/2026/08/2026-08-13-summary.md  # 5-bullet summary
+digests/2026/08/2026-08-14.md          # full digest
+digests/2026/08/2026-08-14-summary.md  # 5-bullet summary
 ```
 
 New here? Start with the most recent summary, then open the full digest for anything worth
@@ -19,6 +19,7 @@ the detail.
 
 ### August 2026
 
+- **[Aug 14](digests/2026/08/2026-08-14.md)** · [summary](digests/2026/08/2026-08-14-summary.md) — Google's Gemini app crossed 1 billion monthly active users
 - **[Aug 13](digests/2026/08/2026-08-13.md)** · [summary](digests/2026/08/2026-08-13-summary.md) — Anthropic is reportedly in talks to acquire Israeli "world model" startup Decart for ~$6 billion
 - **[Aug 12](digests/2026/08/2026-08-12.md)** · [summary](digests/2026/08/2026-08-12-summary.md) — Brad Lightcap, OpenAI's longtime COO and one of Sam Altman's closest confidantes since their Y Combinator days…
 - **[Aug 11](digests/2026/08/2026-08-11.md)** · [summary](digests/2026/08/2026-08-11-summary.md) — Anthropic struck two major compute deals within about a day of each other
