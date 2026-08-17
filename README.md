@@ -19,6 +19,7 @@ the detail.
 
 ### August 2026
 
+- **[Aug 17](digests/2026/08/2026-08-17.md)** · [summary](digests/2026/08/2026-08-17-summary.md) — Anthropic raised its own misalignment-risk rating from "very low" to "low" and disclosed an unreleased model, Model 2…
 - **[Aug 14](digests/2026/08/2026-08-14.md)** · [summary](digests/2026/08/2026-08-14-summary.md) — Google's Gemini app crossed 1 billion monthly active users
 - **[Aug 13](digests/2026/08/2026-08-13.md)** · [summary](digests/2026/08/2026-08-13-summary.md) — Anthropic is reportedly in talks to acquire Israeli "world model" startup Decart for ~$6 billion
 - **[Aug 12](digests/2026/08/2026-08-12.md)** · [summary](digests/2026/08/2026-08-12-summary.md) — Brad Lightcap, OpenAI's longtime COO and one of Sam Altman's closest confidantes since their Y Combinator days…
