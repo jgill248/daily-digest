@@ -19,6 +19,7 @@ the detail.
 
 ### August 2026
 
+- **[Aug 18](digests/2026/08/2026-08-18.md)** · [summary](digests/2026/08/2026-08-18-summary.md) — Nvidia will back OpenAI's Ohio data center with up to $105 billion in financing
 - **[Aug 17](digests/2026/08/2026-08-17.md)** · [summary](digests/2026/08/2026-08-17-summary.md) — Anthropic raised its own misalignment-risk rating from "very low" to "low" and disclosed an unreleased model, Model 2…
 - **[Aug 14](digests/2026/08/2026-08-14.md)** · [summary](digests/2026/08/2026-08-14-summary.md) — Google's Gemini app crossed 1 billion monthly active users
 - **[Aug 13](digests/2026/08/2026-08-13.md)** · [summary](digests/2026/08/2026-08-13-summary.md) — Anthropic is reportedly in talks to acquire Israeli "world model" startup Decart for ~$6 billion
