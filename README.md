@@ -19,6 +19,7 @@ the detail.
 
 ### August 2026
 
+- **[Aug 20](digests/2026/08/2026-08-20.md)** · [summary](digests/2026/08/2026-08-20-summary.md) — Anthropic disclosed that Claude autonomously designed functional protein binders for 14 of 15 disease targets in blind lab tests
 - **[Aug 19](digests/2026/08/2026-08-19.md)** · [summary](digests/2026/08/2026-08-19-summary.md) — OpenAI's operating loss widened to $12.3 billion in Q2 on $6.7 billion in revenue, while Anthropic's revenue more than…
 - **[Aug 18](digests/2026/08/2026-08-18.md)** · [summary](digests/2026/08/2026-08-18-summary.md) — Nvidia will back OpenAI's Ohio data center with up to $105 billion in financing
 - **[Aug 17](digests/2026/08/2026-08-17.md)** · [summary](digests/2026/08/2026-08-17-summary.md) — Anthropic raised its own misalignment-risk rating from "very low" to "low" and disclosed an unreleased model, Model 2…
