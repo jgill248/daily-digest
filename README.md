@@ -19,6 +19,7 @@ the detail.
 
 ### August 2026
 
+- **[Aug 24](digests/2026/08/2026-08-24.md)** · [summary](digests/2026/08/2026-08-24-summary.md) — OpenAI switched on ChatGPT ads across 31 European markets today, its largest geographic expansion yet
 - **[Aug 21](digests/2026/08/2026-08-21.md)** · [summary](digests/2026/08/2026-08-21-summary.md) — Anthropic is telling investors it expects its IPO to match or exceed SpaceX's record $86.2 billion raise
 - **[Aug 20](digests/2026/08/2026-08-20.md)** · [summary](digests/2026/08/2026-08-20-summary.md) — Anthropic disclosed that Claude autonomously designed functional protein binders for 14 of 15 disease targets in blind lab tests
 - **[Aug 19](digests/2026/08/2026-08-19.md)** · [summary](digests/2026/08/2026-08-19-summary.md) — OpenAI's operating loss widened to $12.3 billion in Q2 on $6.7 billion in revenue, while Anthropic's revenue more than…
