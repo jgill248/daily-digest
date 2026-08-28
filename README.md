@@ -19,6 +19,7 @@ the detail.
 
 ### August 2026
 
+- **[Aug 27](digests/2026/08/2026-08-27.md)** · [summary](digests/2026/08/2026-08-27-summary.md) — Anthropic is preparing to pitch IPO investors on a total addressable market of more than $30 trillion
 - **[Aug 26](digests/2026/08/2026-08-26.md)** · [summary](digests/2026/08/2026-08-26-summary.md) — OpenAI shut down Sora, its Atlas browser, and pared back its Disney partnership
 - **[Aug 25](digests/2026/08/2026-08-25.md)** · [summary](digests/2026/08/2026-08-25-summary.md) — Hugging Face is reportedly in talks to be acquired for $13 billion or more
 - **[Aug 24](digests/2026/08/2026-08-24.md)** · [summary](digests/2026/08/2026-08-24-summary.md) — OpenAI switched on ChatGPT ads across 31 European markets today, its largest geographic expansion yet
