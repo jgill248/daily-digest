@@ -1,28 +1,57 @@
 name: Auto-merge digest PRs
 
-# Enables GitHub's native auto-merge, which GitHub itself evaluates against
-# branch protection. The PR cannot merge until the required `validate` check is
-# green - this workflow only asks; it never merges anything itself.
+# Runs only after `Validate digest` has finished, and merges only when it
+# succeeded. Two things this buys over triggering on `pull_request` directly:
+#
+#   1. The gate does not depend on branch protection. `gh pr merge --auto`
+#      does NOT wait when a branch has no required status checks - it merges
+#      immediately - so on a repo without a ruleset it is not a gate at all.
+#      Waiting on the run itself is unconditional.
+#
+#   2. `workflow_run` workflows always run from the default branch's copy of
+#      this file, so a pull request cannot modify its own merge logic.
 
 on:
-  pull_request:
-    types: [opened, reopened, ready_for_review]
+  workflow_run:
+    workflows: ["Validate digest"]
+    types: [completed]
 
 permissions:
   contents: write
   pull-requests: write
+  actions: write   # to dispatch the deploy below
 
 jobs:
-  enable:
+  merge:
     if: >-
-      github.event.pull_request.head.repo.full_name == github.repository &&
-      startsWith(github.head_ref, 'claude/') &&
-      github.event.pull_request.draft == false
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'pull_request' &&
+      github.event.workflow_run.head_repository.full_name == github.repository &&
+      startsWith(github.event.workflow_run.head_branch, 'claude/')
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GH_REPO: ${{ github.repository }}
+      HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
     steps:
-      - name: Enable auto-merge
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_REPO: ${{ github.repository }}
-          PR: ${{ github.event.pull_request.number }}
-        run: gh pr merge --auto --squash --delete-branch "$PR"
+      - name: Find the open PR for this branch
+        id: pr
+        run: |
+          number=$(gh pr list --head "$HEAD_BRANCH" --state open \
+                     --json number --jq '.[0].number // empty')
+          if [ -z "$number" ]; then
+            echo "No open PR for $HEAD_BRANCH; nothing to merge."
+          fi
+          echo "number=$number" >> "$GITHUB_OUTPUT"
+
+      - name: Merge
+        if: steps.pr.outputs.number != ''
+        # Checks are green by construction here, so a plain merge is enough.
+        run: gh pr merge --squash --delete-branch "${{ steps.pr.outputs.number }}"
+
+      - name: Deploy the site
+        if: steps.pr.outputs.number != ''
+        # A merge performed with GITHUB_TOKEN pushes to main WITHOUT triggering
+        # `on: push`, so pages.yml would never fire. workflow_dispatch is one of
+        # the two documented exceptions to that rule and always creates a run.
+        run: gh workflow run pages.yml --ref main

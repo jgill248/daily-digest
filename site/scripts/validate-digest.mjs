@@ -9,11 +9,19 @@
  *   Repo-wide rules hold for every file that has ever been committed. They
  *   cover layout, naming and pairing - things that were always true.
  *
- *   PR-scoped rules apply only to files added or modified in this PR. Digest
- *   structure tightened over time: 43 historical digests predate the
- *   Confidence note and 7 predate Key Themes. A repo-wide structural rule
- *   would fail on half the corpus on day one, and the only fixes would be
- *   rewriting history or weakening the rule to uselessness.
+ *   Structural rules apply only to files ADDED by this PR. Digest structure
+ *   tightened over time: 43 historical digests predate the Confidence note,
+ *   7 predate Key Themes, and 62 of 90 have at least one story with no
+ *   Sources trailer. Holding a touched historical file to today's contract is
+ *   the same mistake as a repo-wide rule, just deferred - and it fires the
+ *   first time anyone fixes a typo in an old digest.
+ *
+ *   This does not weaken the daily gate: the diff is computed against
+ *   origin/main, so both files of a new digest are always "added" no matter
+ *   how many commits the PR carries.
+ *
+ *   Hygiene rules apply to added OR modified files - they are cheap and hold
+ *   for any file anyone touches.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -42,11 +50,11 @@ const git = (...args) => execFileSync("git", args, { encoding: "utf8" }).trim();
 
 const allTracked = () => git("ls-files").split("\n").filter(Boolean);
 
-/** Files added or modified relative to the base ref; empty means "not a PR". */
-function changedFiles(base) {
+/** Files changed relative to the base ref; null means "not a PR". */
+function changedFiles(base, diffFilter) {
   if (!base) return null;
   try {
-    const out = git("diff", "--name-only", "--diff-filter=AM", `${base}...HEAD`);
+    const out = git("diff", "--name-only", `--diff-filter=${diffFilter}`, `${base}...HEAD`);
     return out ? out.split("\n").filter(Boolean) : [];
   } catch {
     console.warn(`! could not diff against ${base}; skipping PR-scoped rules`);
@@ -111,9 +119,17 @@ function checkRepoWide() {
 // --------------------------------------------------------------------------
 // PR-scoped
 // --------------------------------------------------------------------------
-function checkChanged(changed) {
-  const digests = changed.filter((f) => RE_DIGEST_PATH.test(f) && !isSummary(f));
-  const summaries = changed.filter((f) => RE_DIGEST_PATH.test(f) && isSummary(f));
+function checkChanged(added, touched) {
+  const digests = added.filter((f) => RE_DIGEST_PATH.test(f) && !isSummary(f));
+  const summaries = added.filter((f) => RE_DIGEST_PATH.test(f) && isSummary(f));
+
+  // Hygiene: any digest file this PR touches, new or not. Stray closing tags
+  // are an LLM artifact that has reached main before.
+  for (const f of touched.filter((f) => RE_DIGEST_PATH.test(f))) {
+    for (const line of fs.readFileSync(f, "utf8").split("\n")) {
+      if (/^<\/[a-z]+>$/.test(line.trim())) fail(f, `stray closing tag: ${line.trim()}`);
+    }
+  }
 
   // 7. A new day brings both files.
   for (const f of digests) {
@@ -141,12 +157,7 @@ function checkChanged(changed) {
       }
     }
 
-    // 11. Stray closing tags (an LLM artifact - this has happened before).
-    for (const line of src.split("\n")) {
-      if (/^<\/[a-z]+>$/.test(line.trim())) fail(f, `stray closing tag: ${line.trim()}`);
-    }
-
-    // 12. The README hook must be derivable.
+    // 11. The README hook must be derivable.
     const summaryPath = summaryPathFor(f);
     const summaryRaw = fs.existsSync(summaryPath)
       ? fs.readFileSync(summaryPath, "utf8") : null;
@@ -167,27 +178,26 @@ function checkChanged(changed) {
     if (!first || !/^- \*\*(.+?)\*\*/.test(first)) {
       fail(f, "first bullet must open with a **bolded lead clause** - it becomes the README hook");
     }
-
-    for (const line of src.split("\n")) {
-      if (/^<\/[a-z]+>$/.test(line.trim())) fail(f, `stray closing tag: ${line.trim()}`);
-    }
   }
 
   return digests.length + summaries.length;
 }
+
 
 // --------------------------------------------------------------------------
 
 checkRepoWide();
 
 const base = argOf("--base");
-const changed = changedFiles(base);
-let scoped = 0;
-if (changed === null) {
+const added = changedFiles(base, "A");
+const touched = changedFiles(base, "AM");
+if (added === null || touched === null) {
   console.log("· no --base given; ran repo-wide rules only");
 } else {
-  scoped = checkChanged(changed);
-  console.log(`· checked ${scoped} changed digest file(s) against ${base}`);
+  const scoped = checkChanged(added, touched);
+  const newDigests = added.filter((f) => RE_DIGEST_PATH.test(f)).length;
+  console.log(`· ${newDigests} new digest file(s) held to the full structure rules`);
+  console.log(`· ${touched.filter((f) => RE_DIGEST_PATH.test(f)).length} touched digest file(s) checked for hygiene`);
 }
 
 if (problems.length) {

@@ -50,7 +50,9 @@ edit README.md.
 *Confidence note: …*
 ```
 
-Structure, enforced by `validate-digest` — a PR that fails any of these will not merge:
+Structure, enforced by `validate-digest` on every **new** digest — a PR that fails any of
+these will not merge. (Editing an already-published digest is not held to them; much of the
+back catalogue predates these conventions.)
 
 - A `## 1. …` first numbered section.
 - A `## Key Themes` section: a few bolded-lead paragraphs connecting the day's stories.
