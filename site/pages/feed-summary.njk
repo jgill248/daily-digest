@@ -1,0 +1,37 @@
+---
+permalink: /feed/summary.xml
+eleventyExcludeFromCollections: true
+eleventyImport:
+  collections: ["days"]
+layout: false
+---
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="{{ metadata.language }}">
+  <title>{{ metadata.title }} — Summaries</title>
+  <subtitle>The five-bullet version of each weekday's digest.</subtitle>
+  <link href="{{ "/feed/summary.xml" | htmlBaseUrl(metadata.base) }}" rel="self"/>
+  <link href="{{ metadata.base }}"/>
+  <updated>{{ collections.days | getNewestCollectionItemDate | dateToRfc3339 }}</updated>
+  <id>{{ metadata.base }}</id>
+  <author><name>{{ metadata.author.name }}</name></author>
+  {%- for post in collections.days | reverse | eleventyFeedHead(30) %}
+  {%- set absoluteUrl = post.url | htmlBaseUrl(metadata.base) %}
+  <entry>
+    <title>{{ post.data.title }}</title>
+    <link href="{{ absoluteUrl }}"/>
+    <updated>{{ post.date | dateToRfc3339 }}</updated>
+    <id>{{ absoluteUrl }}</id>
+    <content type="html">
+      {%- set bulletHtml %}
+        <ul>
+        {%- for bullet in post.data.day.bulletsHtml %}
+          <li>{{ bullet | safe }}</li>
+        {%- endfor %}
+        </ul>
+        <p><a href="{{ absoluteUrl }}">Read the full digest →</a></p>
+      {% endset -%}
+      {{ bulletHtml | e }}
+    </content>
+  </entry>
+  {%- endfor %}
+</feed>

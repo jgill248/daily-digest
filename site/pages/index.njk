@@ -1,0 +1,39 @@
+---
+layout: base.njk
+permalink: /
+eleventyImport:
+  collections: ["days"]
+---
+{% set latest = collections.days | last %}
+{% set recent = collections.days | reverse %}
+
+<header class="hero">
+  <h1>{{ metadata.title }}</h1>
+  <p class="lede">{{ metadata.subtitle }}</p>
+</header>
+
+<section class="latest">
+  <h2>Latest — <a href="{{ latest.url }}">{{ latest.data.day.display }}</a></h2>
+  {% if latest.data.day.range %}<p class="range-note">Covering {{ latest.data.day.range }}</p>{% endif %}
+  {% if latest.data.day.bulletsHtml.length %}
+    <ul class="bullets">
+      {% for bullet in latest.data.day.bulletsHtml %}
+        <li>{{ bullet | safe }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <p><a class="cta" href="{{ latest.url }}">Read the full digest →</a></p>
+</section>
+
+<section class="recent">
+  <h2>Recent digests</h2>
+  <ul class="day-list">
+    {% for item in recent.slice(1, 31) %}
+      <li>
+        <a href="{{ item.url }}">{{ item.data.day.short }}</a>
+        <span class="hook">{{ item.data.day.hook }}</span>
+      </li>
+    {% endfor %}
+  </ul>
+  <p><a href="/archive/">Browse the full archive →</a></p>
+</section>

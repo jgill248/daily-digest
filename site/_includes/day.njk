@@ -1,0 +1,22 @@
+---
+layout: base.njk
+---
+{% set pageTitle = "Daily AI Digest — " + day.display %}
+{% set pageDescription = day.hook %}
+
+<article data-pagefind-body data-pagefind-meta="date:{{ day.iso }}">
+  <header class="day-header">
+    <p class="eyebrow"><a href="{{ day.monthUrl }}">{{ day.month }}</a></p>
+    <h1>Daily AI Digest — {{ day.display }}</h1>
+    {% if day.range %}
+      <p class="range-note">Covering {{ day.range }}</p>
+    {% endif %}
+  </header>
+
+  {{ content | safe }}
+</article>
+
+<nav class="day-nav" data-pagefind-ignore>
+  <a href="{{ day.monthUrl }}">← All of {{ day.month }}</a>
+  <a href="/archive/">Full archive →</a>
+</nav>

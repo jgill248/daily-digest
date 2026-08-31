@@ -15,8 +15,19 @@ digests/2026/08/2026-08-14-summary.md  # 5-bullet summary
 New here? Start with the most recent summary, then open the full digest for anything worth
 the detail.
 
+## Read it on the web
+
+Everything here is published as a searchable archive, with one page per day:
+
+- **Site** — https://daily-ai-digest.example.com/ (full-text search across every digest)
+- **Feed** — `/feed.xml` for the full digest, `/feed/summary.xml` for the five-bullet version
+- **Email** — subscribe through the site to get each morning's digest in your inbox
+
+The index below is generated from the files on disk after every merge — don't edit it by hand.
+
 ## Index
 
+<!-- BEGIN INDEX -->
 ### August 2026
 
 - **[Aug 31](digests/2026/08/2026-08-31.md)** · [summary](digests/2026/08/2026-08-31-summary.md) — Sony Music Publishing and Warner Chappell sued Anthropic
@@ -24,9 +35,9 @@ the detail.
 - **[Aug 27](digests/2026/08/2026-08-27.md)** · [summary](digests/2026/08/2026-08-27-summary.md) — Anthropic is preparing to pitch IPO investors on a total addressable market of more than $30 trillion
 - **[Aug 26](digests/2026/08/2026-08-26.md)** · [summary](digests/2026/08/2026-08-26-summary.md) — OpenAI shut down Sora, its Atlas browser, and pared back its Disney partnership
 - **[Aug 25](digests/2026/08/2026-08-25.md)** · [summary](digests/2026/08/2026-08-25-summary.md) — Hugging Face is reportedly in talks to be acquired for $13 billion or more
-- **[Aug 24](digests/2026/08/2026-08-24.md)** · [summary](digests/2026/08/2026-08-24-summary.md) — OpenAI switched on ChatGPT ads across 31 European markets today, its largest geographic expansion yet
+- **[Aug 24](digests/2026/08/2026-08-24.md)** · [summary](digests/2026/08/2026-08-24-summary.md) — OpenAI switched on ChatGPT ads across 31 European markets today
 - **[Aug 21](digests/2026/08/2026-08-21.md)** · [summary](digests/2026/08/2026-08-21-summary.md) — Anthropic is telling investors it expects its IPO to match or exceed SpaceX's record $86.2 billion raise
-- **[Aug 20](digests/2026/08/2026-08-20.md)** · [summary](digests/2026/08/2026-08-20-summary.md) — Anthropic disclosed that Claude autonomously designed functional protein binders for 14 of 15 disease targets in blind lab tests
+- **[Aug 20](digests/2026/08/2026-08-20.md)** · [summary](digests/2026/08/2026-08-20-summary.md) — Anthropic disclosed that Claude autonomously designed functional protein binders for 14 of 15 disease targets in blind…
 - **[Aug 19](digests/2026/08/2026-08-19.md)** · [summary](digests/2026/08/2026-08-19-summary.md) — OpenAI's operating loss widened to $12.3 billion in Q2 on $6.7 billion in revenue, while Anthropic's revenue more than…
 - **[Aug 18](digests/2026/08/2026-08-18.md)** · [summary](digests/2026/08/2026-08-18-summary.md) — Nvidia will back OpenAI's Ohio data center with up to $105 billion in financing
 - **[Aug 17](digests/2026/08/2026-08-17.md)** · [summary](digests/2026/08/2026-08-17-summary.md) — Anthropic raised its own misalignment-risk rating from "very low" to "low" and disclosed an unreleased model, Model 2…
@@ -121,3 +132,4 @@ the detail.
 - **[Apr 30](digests/2026/04/2026-04-30.md)** · [summary](digests/2026/04/2026-04-30-summary.md) — OpenAI launched GPT-5.5
 - **[Apr 16](digests/2026/04/2026-04-16.md)** — Claude Opus 4.7 — Launch Imminent
 - **[Apr 15](digests/2026/04/2026-04-15.md)** — OpenAI: GPT-5.4-Cyber Launches for Defensive Security
+<!-- END INDEX -->

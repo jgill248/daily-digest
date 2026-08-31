@@ -1,0 +1,23 @@
+---
+layout: base.njk
+permalink: /archive/
+eleventyImport:
+  collections: ["months"]
+---
+{% set pageTitle = "Archive" %}
+<h1>Archive</h1>
+<p class="lede">Every digest, newest first. Use search for anything specific.</p>
+
+{% for month in collections.months %}
+  <section class="month-block">
+    <h2><a href="{{ month.url }}">{{ month.label }}</a></h2>
+    <ul class="day-list">
+      {% for item in month.days %}
+        <li>
+          <a href="{{ item.url }}">{{ item.data.day.short }}</a>
+          <span class="hook">{{ item.data.day.hook }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endfor %}

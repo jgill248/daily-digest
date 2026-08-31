@@ -1,0 +1,23 @@
+{
+  "name": "daily-digest-site",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "npm run build:11ty && npm run build:search",
+    "build:11ty": "cd .. && eleventy --config=site/eleventy.config.js",
+    "build:search": "pagefind --site _site",
+    "serve": "cd .. && eleventy --config=site/eleventy.config.js --serve --incremental",
+    "index": "node scripts/build-readme-index.mjs --write",
+    "index:check": "node scripts/build-readme-index.mjs --check",
+    "validate": "node scripts/validate-digest.mjs"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.1.6",
+    "@11ty/eleventy-plugin-rss": "3.0.0",
+    "markdown-it": "14.1.0",
+    "pagefind": "1.5.2"
+  }
+}

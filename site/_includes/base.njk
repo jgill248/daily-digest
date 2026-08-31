@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="{{ metadata.language }}">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% if pageTitle %}{{ pageTitle }} · {% endif %}{{ metadata.title }}</title>
+<meta name="description" content="{{ pageDescription or metadata.subtitle }}">
+<link rel="alternate" type="application/atom+xml" title="{{ metadata.title }}" href="/feed.xml">
+<link rel="alternate" type="application/atom+xml" title="{{ metadata.title }} — summaries" href="/feed/summary.xml">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
+<script type="module" src="/pagefind/pagefind-component-ui.js"></script>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="/">{{ metadata.title }}</a>
+  <div class="nav-links">
+    <a href="/archive/">Archive</a>
+    <a href="/feed.xml">Feed</a>
+    <pagefind-modal-trigger><button type="button">Search</button></pagefind-modal-trigger>
+  </div>
+</nav>
+
+<pagefind-modal></pagefind-modal>
+
+<main>
+{{ content | safe }}
+</main>
+
+<footer class="site-footer">
+  <p>
+    One AI news digest per weekday, with sourcing for every claim.
+    <a href="/feed.xml">Subscribe by RSS</a> ·
+    <a href="https://github.com/jgill248/daily-digest">Source on GitHub</a>
+  </p>
+</footer>
+</body>
+</html>

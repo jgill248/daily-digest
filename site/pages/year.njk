@@ -1,0 +1,24 @@
+---
+layout: base.njk
+pagination:
+  data: collections.years
+  size: 1
+  alias: year
+permalink: "/{{ year.y }}/"
+eleventyImport:
+  collections: ["years"]
+---
+{% set pageTitle = year.y %}
+<h1>{{ year.y }}</h1>
+<p class="lede">{{ year.days.length }} digests.</p>
+
+<ul class="day-list">
+  {% for item in year.days %}
+    <li>
+      <a href="{{ item.url }}">{{ item.data.day.short }}</a>
+      <span class="hook">{{ item.data.day.hook }}</span>
+    </li>
+  {% endfor %}
+</ul>
+
+<p><a href="/archive/">Full archive →</a></p>

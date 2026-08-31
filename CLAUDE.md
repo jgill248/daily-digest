@@ -1,8 +1,12 @@
 # CLAUDE.md
 
-This repo holds one daily AI news digest per weekday. It is markdown only — no build, no
-dependencies, no tests. The job is to add each day's two files in the right place and keep the
-README index current.
+This repo holds one daily AI news digest per weekday. Your job is to add each day's two files
+in the right place — that's it. Everything downstream is automated: a PR that passes
+`validate-digest` merges itself, the site rebuilds, the README index regenerates, and the Atom
+feed goes out to email subscribers.
+
+The digests themselves stay plain markdown with no front matter. The build that publishes them
+lives entirely under `site/` and you never need to touch it.
 
 ## Where files go
 
@@ -16,28 +20,15 @@ digests/YYYY/MM/YYYY-MM-DD-summary.md  # short summary
 - **Never write a digest to the repo root.** The old flat `daily-digest-M-D-YY.md` naming is
   retired; do not reintroduce it.
 
-## Every new digest: three steps
+## Every new digest: two steps
 
 1. Write `digests/YYYY/MM/YYYY-MM-DD.md`.
 2. Write `digests/YYYY/MM/YYYY-MM-DD-summary.md`.
-3. Add one line to the index in [README.md](README.md) — see below. This is not optional; the
-   index is maintained by hand as part of writing the digest, so skipping it silently rots it.
 
-## Updating the README index
-
-Add the new day at the **top** of the current month's `###` block, since the index runs
-newest-first. If it's the first digest of a month, add a new `### <Month> <Year>` heading
-directly under `## Index`, above the previous month.
-
-The line format:
-
-```markdown
-- **[Aug 13](digests/2026/08/2026-08-13.md)** · [summary](digests/2026/08/2026-08-13-summary.md) — <hook>
-```
-
-The `<hook>` is the bolded lead clause from the summary's first bullet, with any trailing
-`:` `,` or `.` removed and truncated to ~120 characters (ending in `…`) if longer. Copy it
-verbatim otherwise — don't rewrite it.
+**Do not edit the README index.** It is regenerated from the files on disk after every merge,
+and hand edits are overwritten. The hook it shows for each day is the bolded lead clause of
+your summary's first bullet — so the way to control it is to write that clause well, not to
+edit README.md.
 
 ## Digest file format
 
@@ -59,15 +50,19 @@ verbatim otherwise — don't rewrite it.
 *Confidence note: …*
 ```
 
-Conventions in the existing digests, worth keeping:
+Structure, enforced by `validate-digest` — a PR that fails any of these will not merge:
 
-- Every story ends with a parenthetical `*(Sources: …, <date>)*` list naming the outlets.
+- A `## 1. …` first numbered section.
+- A `## Key Themes` section: a few bolded-lead paragraphs connecting the day's stories.
+- A closing `*Confidence note: …*` italic paragraph.
+- Every `###` story ends with a parenthetical `*(Sources: …, <date>)*` list naming the outlets.
+
+Judgement, which no check can make for you — and which is the whole point of the digest:
+
 - Distinguish original reporting from corroboration ("per Bloomberg's original reporting,
   corroborated by …").
 - Flag what is unconfirmed, modeled, or company-reported rather than independently verified.
-- `## Key Themes` is a few bolded-lead paragraphs connecting the day's stories.
-- The closing `*Confidence note: …*` italic paragraph states sourcing and verification limits
-  for each major claim.
+- The Confidence note states sourcing and verification limits for each major claim.
 
 ## Summary file format
 
@@ -78,8 +73,33 @@ Conventions in the existing digests, worth keeping:
 ```
 
 Three to five bullets (recent digests consistently run five), each one or two sentences and each
-opening with a bolded lead. The first bullet should carry the day's biggest story, because it
-becomes the README index hook.
+opening with a bolded lead — both enforced by `validate-digest`. The first bullet must carry the
+day's biggest story, because its bolded lead becomes the README index hook and the feed summary.
+
+## The site build
+
+These files are published as a searchable web archive and an Atom feed, built by
+`.github/workflows/pages.yml`. Three rules follow from that:
+
+- **Never add YAML front matter.** The site derives everything it needs — the date, the display
+  title, the sibling summary, the date range — from the filename and the first heading. A `---`
+  on line 1 would be parsed as front matter and break the build.
+- **The date comes from the filename, never the heading.** Get `YYYY-MM-DD.md` right and
+  everything downstream is right.
+- **The first bullet of the summary is load-bearing in three places** — the README index hook,
+  the day page's "short version" block, and the summary feed. Keep its bolded lead a complete,
+  self-contained claim under ~120 characters; anything longer is truncated with an ellipsis.
+
+The H1 you write is **not** what the site displays — it renders a normalized
+`Daily AI Digest — <Month D, YYYY>` and strips yours. Write it anyway for anyone reading the
+raw markdown. For a multi-day digest, write the range as `June 16–18, 2026` (en dash): the site
+recognizes that shape and shows it as a subtitle.
+
+To reproduce a CI failure locally:
+
+```bash
+cd site && npm ci && npm run validate && npm run build
+```
 
 ## Don't repeat yesterday's news
 
@@ -88,7 +108,8 @@ genuine update — new numbers, a deal closing, a reversal — and when you do, 
 changed rather than restating the original story.
 
 Check the [README.md](README.md) index before writing: it carries a one-line hook for every day,
-so scanning it is much faster than opening digests. Then read the last few days' `-summary.md`
+so scanning it is much faster than opening digests. It is generated, so it is always current on
+`main`. Then read the last few days' `-summary.md`
 files in the current month folder for anything the hooks don't surface.
 
 ## Notes
