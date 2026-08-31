@@ -1,0 +1,68 @@
+name: Build and deploy site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # write, not read: the README index step commits
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  # Never cancel an in-flight deploy - a cancelled one can leave the Pages
+  # environment wedged, and merges here are one per weekday.
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: site/.nvmrc
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install
+        working-directory: site
+        run: npm ci
+
+      # Runs before the build so the deployed site and the committed README
+      # always describe the same commit.
+      - name: Refresh README index
+        run: |
+          node site/scripts/build-readme-index.mjs --write
+          if ! git diff --quiet -- README.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "Regenerate README index" -- README.md
+            git push
+          fi
+
+      - name: Build site
+        working-directory: site
+        env:
+          SITE_BASE_URL: ${{ vars.SITE_BASE_URL }}
+        run: npm run build
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: site/_site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

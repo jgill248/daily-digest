@@ -1,0 +1,24 @@
+---
+layout: base.njk
+pagination:
+  data: collections.months
+  size: 1
+  alias: month
+permalink: "/{{ month.y }}/{{ month.m }}/"
+eleventyImport:
+  collections: ["months"]
+---
+{% set pageTitle = month.label %}
+<h1>{{ month.label }}</h1>
+<p class="lede">{{ month.days.length }} digest{% if month.days.length != 1 %}s{% endif %} this month.</p>
+
+<ul class="day-list">
+  {% for item in month.days %}
+    <li>
+      <a href="{{ item.url }}">{{ item.data.day.short }}</a>
+      <span class="hook">{{ item.data.day.hook }}</span>
+    </li>
+  {% endfor %}
+</ul>
+
+<p><a href="/{{ month.y }}/">All of {{ month.y }} →</a> · <a href="/archive/">Full archive →</a></p>

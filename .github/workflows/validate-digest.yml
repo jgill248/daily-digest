@@ -1,0 +1,37 @@
+name: Validate digest
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  # The job name `validate` is what the branch ruleset requires as a status
+  # check, and what auto-merge waits on. Renaming it silently opens the gate.
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: site/.nvmrc
+          cache: npm
+          cache-dependency-path: site/package-lock.json
+
+      - name: Install
+        working-directory: site
+        run: npm ci
+
+      - name: Validate digest files
+        run: node site/scripts/validate-digest.mjs --base origin/${{ github.base_ref }}
+
+      # The highest-value check in this file: catches a digest that breaks the
+      # site, which no amount of markdown linting would.
+      - name: Build site
+        working-directory: site
+        run: npm run build
