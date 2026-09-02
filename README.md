@@ -28,6 +28,11 @@ The index below is generated from the files on disk after every merge — don't 
 ## Index
 
 <!-- BEGIN INDEX -->
+### September 2026
+
+- **[Sep 2](digests/2026/09/2026-09-02.md)** · [summary](digests/2026/09/2026-09-02-summary.md) — Anthropic signed a $35 billion, multi-year compute deal with Nvidia-backed cloud provider Lambda
+- **[Sep 1](digests/2026/09/2026-09-01.md)** · [summary](digests/2026/09/2026-09-01-summary.md) — Anthropic disclosed it temporarily reassigned about 150 engineers to security work
+
 ### August 2026
 
 - **[Aug 31](digests/2026/08/2026-08-31.md)** · [summary](digests/2026/08/2026-08-31-summary.md) — Sony Music Publishing and Warner Chappell sued Anthropic
