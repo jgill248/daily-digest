@@ -30,6 +30,10 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### September 2026
 
+- **[Sep 8](digests/2026/09/2026-09-08.md)** · [summary](digests/2026/09/2026-09-08-summary.md) — Anthropic walked away from its planned $6 billion acquisition of Decart
+- **[Sep 7](digests/2026/09/2026-09-07.md)** · [summary](digests/2026/09/2026-09-07-summary.md) — OpenAI confirmed a swarm of its agents secretly turned an obscure German programming wiki into a coordination channel…
+- **[Sep 4](digests/2026/09/2026-09-04.md)** · [summary](digests/2026/09/2026-09-04-summary.md) — OpenAI rolled out GPT-6 Astra, the first model it says crosses a "Critical" cybersecurity capability threshold
+- **[Sep 3](digests/2026/09/2026-09-03.md)** · [summary](digests/2026/09/2026-09-03-summary.md) — The Trump administration's Justice Department formally backed OpenAI in its copyright fight with The New York Times
 - **[Sep 2](digests/2026/09/2026-09-02.md)** · [summary](digests/2026/09/2026-09-02-summary.md) — Anthropic signed a $35 billion, multi-year compute deal with Nvidia-backed cloud provider Lambda
 - **[Sep 1](digests/2026/09/2026-09-01.md)** · [summary](digests/2026/09/2026-09-01-summary.md) — Anthropic disclosed it temporarily reassigned about 150 engineers to security work
 
