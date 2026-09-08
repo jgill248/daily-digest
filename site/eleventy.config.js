@@ -1,5 +1,6 @@
 import { feedPlugin } from "@11ty/eleventy-plugin-rss";
-import { RenderPlugin } from "@11ty/eleventy";
+import { RenderPlugin, HtmlBasePlugin } from "@11ty/eleventy";
+import metadata from "./_data/metadata.js";
 import {
   isDigest, isSummary, dateFromPath, longMonth,
   stripLeadingH1, readSiblingSummary,
@@ -13,6 +14,20 @@ const dayItems = (api) =>
 
 export default function (eleventyConfig) {
   eleventyConfig.addPlugin(RenderPlugin);
+
+  // Must be added HERE, before the feed plugin, and the ordering is load-bearing
+  // under a non-root pathPrefix. HtmlBasePlugin is what rewrites root-relative
+  // URLs (`/assets/style.css`) to include the prefix, so every page link depends
+  // on it running exactly once.
+  //
+  // The feed plugin adds it internally twice (once itself, once via the RSS
+  // plugin it wraps). Eleventy marks the plugin `unique`, but that check reads a
+  // list only config-time additions are recorded in - a plugin added *during*
+  // plugin execution is run immediately and never recorded - so neither inner
+  // add is deduped against the other, and every URL came out as
+  // /daily-digest/daily-digest/. Adding it at config time registers it in that
+  // list first, so both inner adds are correctly skipped.
+  eleventyConfig.addPlugin(HtmlBasePlugin);
 
   // --- keep repo-root files out of the build --------------------------------
   // dir.input is the repo root (see the `config` export), so anything at the
@@ -94,14 +109,13 @@ export default function (eleventyConfig) {
       title: "Daily AI Digest",
       subtitle:
         "The most important AI news each weekday, with sourcing for every claim.",
-      base: process.env.SITE_BASE_URL || "https://daily-ai-digest.example.com/",
+      base: metadata.origin,
       author: { name: "John Gilliland" },
     },
   });
 
   eleventyConfig.addFilter("readableDate", (value) => value);
   eleventyConfig.addPassthroughCopy({ "site/assets": "assets" });
-  eleventyConfig.addPassthroughCopy({ "site/CNAME": "CNAME" });
   eleventyConfig.addWatchTarget("digests/");
 }
 
@@ -119,6 +133,11 @@ export const config = {
   // Consequence: permalinks must be functions, not template strings.
   markdownTemplateEngine: false,
   htmlTemplateEngine: "njk",
-  // Custom domain: the site is served from the root.
-  pathPrefix: "/",
+  // GitHub Pages project site: served from /daily-digest/, not the root.
+  // Root-relative links in templates stay written as `/archive/` - HtmlBasePlugin
+  // rewrites them at build time, and the feeds' `htmlBaseUrl` applies this prefix
+  // too. Only non-URL attributes Eleventy can't recognize (see `bundle-path` in
+  // base.njk) need the `url` filter by hand. Keep in sync with `base` in
+  // site/_data/metadata.js.
+  pathPrefix: "/daily-digest/",
 };

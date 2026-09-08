@@ -3,6 +3,13 @@ name: Auto-merge digest PRs
 # Enables GitHub's native auto-merge, which GitHub itself evaluates against
 # branch protection. The PR cannot merge until the required `validate` check is
 # green - this workflow only asks; it never merges anything itself.
+#
+# AUTOMERGE_TOKEN, not GITHUB_TOKEN, and that is the whole point: GitHub does
+# not start new workflow runs for events produced by GITHUB_TOKEN. Enabling
+# auto-merge with it means the eventual merge commit lands on main silently -
+# no push event, so pages.yml never deploys. A PAT (or App token) makes the
+# merge a real actor's push, which triggers the deploy. If this secret is
+# missing or expired the step fails loudly rather than merging un-deployed.
 
 on:
   pull_request:
@@ -20,9 +27,23 @@ jobs:
       github.event.pull_request.draft == false
     runs-on: ubuntu-latest
     steps:
+      # Without this the failure surfaces as gh's generic "set the GH_TOKEN
+      # environment variable", which reads like a workflow bug rather than a
+      # missing repository secret.
+      - name: Check auto-merge token is present
+        env:
+          TOKEN: ${{ secrets.AUTOMERGE_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::Secret AUTOMERGE_TOKEN is not set. Create a fine-grained PAT" \
+                 "(Contents: read+write, Pull requests: read+write) and add it as a" \
+                 "repository secret. Auto-merge is disabled until then."
+            exit 1
+          fi
+
       - name: Enable auto-merge
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.AUTOMERGE_TOKEN }}
           GH_REPO: ${{ github.repository }}
           PR: ${{ github.event.pull_request.number }}
         run: gh pr merge --auto --squash --delete-branch "$PR"

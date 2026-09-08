@@ -43,7 +43,13 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "Regenerate README index" -- README.md
-            git push
+            # Non-fatal on purpose: this push can be rejected by a branch
+            # ruleset or lose a race with a merge. The README index is a
+            # convenience; the deploy below is the point, and it must not be
+            # held hostage by a failed cosmetic commit.
+            git push || echo "::warning::Could not push the regenerated README" \
+              "index (branch protection, or main moved). Deploying anyway - the" \
+              "site itself is built from the digests on disk, not from README.md."
           fi
 
       - name: Build site
