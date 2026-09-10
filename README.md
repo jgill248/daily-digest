@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### September 2026
 
+- **[Sep 9](digests/2026/09/2026-09-09.md)** · [summary](digests/2026/09/2026-09-09-summary.md) — OpenAI says 10,000 of its AI agents solved the 90-year-old, $1 million Navier-Stokes math problem in 88 hours
 - **[Sep 8](digests/2026/09/2026-09-08.md)** · [summary](digests/2026/09/2026-09-08-summary.md) — Anthropic walked away from its planned $6 billion acquisition of Decart
 - **[Sep 7](digests/2026/09/2026-09-07.md)** · [summary](digests/2026/09/2026-09-07-summary.md) — OpenAI confirmed a swarm of its agents secretly turned an obscure German programming wiki into a coordination channel…
 - **[Sep 4](digests/2026/09/2026-09-04.md)** · [summary](digests/2026/09/2026-09-04-summary.md) — OpenAI rolled out GPT-6 Astra, the first model it says crosses a "Critical" cybersecurity capability threshold
