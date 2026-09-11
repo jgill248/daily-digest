@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### September 2026
 
+- **[Sep 11](digests/2026/09/2026-09-11.md)** · [summary](digests/2026/09/2026-09-11-summary.md) — Anthropic disclosed that a Yemeni weapons cell used Claude Code to develop missile guidance software
 - **[Sep 10](digests/2026/09/2026-09-10.md)** · [summary](digests/2026/09/2026-09-10-summary.md) — Newly disclosed Pentagon contracts show Claude was used for target identification in the U.S.'s Iran campaign
 - **[Sep 9](digests/2026/09/2026-09-09.md)** · [summary](digests/2026/09/2026-09-09-summary.md) — OpenAI says 10,000 of its AI agents solved the 90-year-old, $1 million Navier-Stokes math problem in 88 hours
 - **[Sep 8](digests/2026/09/2026-09-08.md)** · [summary](digests/2026/09/2026-09-08-summary.md) — Anthropic walked away from its planned $6 billion acquisition of Decart
