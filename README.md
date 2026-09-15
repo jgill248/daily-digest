@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### September 2026
 
+- **[Sep 15](digests/2026/09/2026-09-15.md)** · [summary](digests/2026/09/2026-09-15-summary.md) — Apple shipped Siri AI in public beta on September 14, built on a custom Google Gemini model
 - **[Sep 14](digests/2026/09/2026-09-14.md)** · [summary](digests/2026/09/2026-09-14-summary.md) — Dario Amodei's call to "pace the frontier" drew rare same-day backing from Altman, Musk, and Nadella
 - **[Sep 11](digests/2026/09/2026-09-11.md)** · [summary](digests/2026/09/2026-09-11-summary.md) — Anthropic disclosed that a Yemeni weapons cell used Claude Code to develop missile guidance software
 - **[Sep 10](digests/2026/09/2026-09-10.md)** · [summary](digests/2026/09/2026-09-10-summary.md) — Newly disclosed Pentagon contracts show Claude was used for target identification in the U.S.'s Iran campaign
