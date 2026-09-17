@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### September 2026
 
+- **[Sep 17](digests/2026/09/2026-09-17.md)** · [summary](digests/2026/09/2026-09-17-summary.md) — OpenAI began regularly disclosing "concerning" AI model behavior, publishing its first six incident reports
 - **[Sep 16](digests/2026/09/2026-09-16.md)** · [summary](digests/2026/09/2026-09-16-summary.md) — Trump publicly rebuked Anthropic CEO Dario Amodei on Truth Social, rejecting AI guardrails as a "SICK conspiracy"
 - **[Sep 15](digests/2026/09/2026-09-15.md)** · [summary](digests/2026/09/2026-09-15-summary.md) — Apple shipped Siri AI in public beta on September 14, built on a custom Google Gemini model
 - **[Sep 14](digests/2026/09/2026-09-14.md)** · [summary](digests/2026/09/2026-09-14-summary.md) — Dario Amodei's call to "pace the frontier" drew rare same-day backing from Altman, Musk, and Nadella
