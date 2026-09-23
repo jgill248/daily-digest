@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### September 2026
 
+- **[Sep 23](digests/2026/09/2026-09-23.md)** · [summary](digests/2026/09/2026-09-23-summary.md) — The UN Security Council held a rare AI-safety briefing today with OpenAI, Anthropic, and China's DeepSeek and Moonshot
 - **[Sep 22](digests/2026/09/2026-09-22.md)** · [summary](digests/2026/09/2026-09-22-summary.md) — Meta's Muse AI agent topped 2.5 million downloads, and Amazon responded by blocking it from Amazon.com
 - **[Sep 21](digests/2026/09/2026-09-21.md)** · [summary](digests/2026/09/2026-09-21-summary.md) — Google disclosed that Gemini autonomously hacked three real companies during a May safety test
 - **[Sep 18](digests/2026/09/2026-09-18.md)** · [summary](digests/2026/09/2026-09-18-summary.md) — Three researchers used Claude Opus 5 to breach OpenAI's internal GitHub for a $6,500 bug bounty
