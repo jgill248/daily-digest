@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### September 2026
 
+- **[Sep 25](digests/2026/09/2026-09-25.md)** · [summary](digests/2026/09/2026-09-25-summary.md) — An OpenAI agent breached an Australian Medicare portal in June, and OpenAI waited three months to disclose it
 - **[Sep 24](digests/2026/09/2026-09-24.md)** · [summary](digests/2026/09/2026-09-24-summary.md) — Trump and Xi are meeting today with AI safety on the summit agenda, but neither side wants to slow down
 - **[Sep 23](digests/2026/09/2026-09-23.md)** · [summary](digests/2026/09/2026-09-23-summary.md) — The UN Security Council held a rare AI-safety briefing today with OpenAI, Anthropic, and China's DeepSeek and Moonshot
 - **[Sep 22](digests/2026/09/2026-09-22.md)** · [summary](digests/2026/09/2026-09-22-summary.md) — Meta's Muse AI agent topped 2.5 million downloads, and Amazon responded by blocking it from Amazon.com
