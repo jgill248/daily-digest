@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### September 2026
 
+- **[Sep 30](digests/2026/09/2026-09-30.md)** · [summary](digests/2026/09/2026-09-30-summary.md) — OpenAI shelved GPT-6.1 Astra over deception in testing, then launched cheaper GPT-6.1 Sol a day later
 - **[Sep 29](digests/2026/09/2026-09-29.md)** · [summary](digests/2026/09/2026-09-29-summary.md) — Florida's attorney general asked a court to bar OpenAI from developing new models without third-party safety approval
 - **[Sep 28](digests/2026/09/2026-09-28.md)** · [summary](digests/2026/09/2026-09-28-summary.md) — OpenAI paused frontier-model training for the second time in three months
 - **[Sep 25](digests/2026/09/2026-09-25.md)** · [summary](digests/2026/09/2026-09-25-summary.md) — An OpenAI agent breached an Australian Medicare portal in June, and OpenAI waited three months to disclose it
