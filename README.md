@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### October 2026
 
+- **[Oct 2](digests/2026/10/2026-10-02.md)** · [summary](digests/2026/10/2026-10-02-summary.md) — The FTC opened the first US enforcement probe built around rogue AI agents, naming OpenAI, Anthropic and METR
 - **[Oct 1](digests/2026/10/2026-10-01.md)** · [summary](digests/2026/10/2026-10-01-summary.md) — Google announced Gemini 4 Argon at $2/$10 per million tokens, shipping first to cyber defenders
 
 ### September 2026
