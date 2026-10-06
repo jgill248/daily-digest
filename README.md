@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### October 2026
 
+- **[Oct 6](digests/2026/10/2026-10-06.md)** · [summary](digests/2026/10/2026-10-06-summary.md) — Reflection AI unveiled Beam, a 501B-parameter open-weight model it says matches GLM 5.2 on coding at 3–4× less compute
 - **[Oct 5](digests/2026/10/2026-10-05.md)** · [summary](digests/2026/10/2026-10-05-summary.md) — Trump created a "Super Intelligence Force" under DNI Jay Clayton with 120 days to report on AI risks
 - **[Oct 2](digests/2026/10/2026-10-02.md)** · [summary](digests/2026/10/2026-10-02-summary.md) — The FTC opened the first US enforcement probe built around rogue AI agents, naming OpenAI, Anthropic and METR
 - **[Oct 1](digests/2026/10/2026-10-01.md)** · [summary](digests/2026/10/2026-10-01-summary.md) — Google announced Gemini 4 Argon at $2/$10 per million tokens, shipping first to cyber defenders
