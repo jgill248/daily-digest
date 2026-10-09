@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### October 2026
 
+- **[Oct 9](digests/2026/10/2026-10-09.md)** · [summary](digests/2026/10/2026-10-09-summary.md) — Google Cloud unveiled a Gemini agent that plans and runs multi-day work on its own
 - **[Oct 8](digests/2026/10/2026-10-08.md)** · [summary](digests/2026/10/2026-10-08-summary.md) — Mistral opened a preview of Large 4, a 1.05-trillion-parameter open-weight model, with downloads promised later this…
 - **[Oct 7](digests/2026/10/2026-10-07.md)** · [summary](digests/2026/10/2026-10-07-summary.md) — OpenAI published 722 math manuscripts from an unreleased internal model, with Lean proofs for many
 - **[Oct 6](digests/2026/10/2026-10-06.md)** · [summary](digests/2026/10/2026-10-06-summary.md) — Reflection AI unveiled Beam, a 501B-parameter open-weight model it says matches GLM 5.2 on coding at 3–4× less compute
