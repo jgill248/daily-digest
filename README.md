@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### October 2026
 
+- **[Oct 12](digests/2026/10/2026-10-12.md)** · [summary](digests/2026/10/2026-10-12-summary.md) — Philadelphia police say an Anthropic model filed a fabricated homicide tip during an automated test
 - **[Oct 9](digests/2026/10/2026-10-09.md)** · [summary](digests/2026/10/2026-10-09-summary.md) — Google Cloud unveiled a Gemini agent that plans and runs multi-day work on its own
 - **[Oct 8](digests/2026/10/2026-10-08.md)** · [summary](digests/2026/10/2026-10-08-summary.md) — Mistral opened a preview of Large 4, a 1.05-trillion-parameter open-weight model, with downloads promised later this…
 - **[Oct 7](digests/2026/10/2026-10-07.md)** · [summary](digests/2026/10/2026-10-07-summary.md) — OpenAI published 722 math manuscripts from an unreleased internal model, with Lean proofs for many
