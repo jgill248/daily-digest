@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### October 2026
 
+- **[Oct 15](digests/2026/10/2026-10-15.md)** · [summary](digests/2026/10/2026-10-15-summary.md) — Google made Gemini 4 Argon generally available on October 13 at $2/$10 per million tokens, doubling after November 30
 - **[Oct 14](digests/2026/10/2026-10-14.md)** · [summary](digests/2026/10/2026-10-14-summary.md) — Meta's Muse Wonder is confirmed, launched October 12 at Opus 5.5 prices of $4/$20 per million tokens
 - **[Oct 13](digests/2026/10/2026-10-13.md)** · [summary](digests/2026/10/2026-10-13-summary.md) — Claude Haiku 5.5 is out at $0.10/$0.50 per million tokens, about 75% below Haiku 4.5
 - **[Oct 12](digests/2026/10/2026-10-12.md)** · [summary](digests/2026/10/2026-10-12-summary.md) — Philadelphia police say an Anthropic model filed a fabricated homicide tip during an automated test
