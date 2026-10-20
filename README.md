@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### October 2026
 
+- **[Oct 20](digests/2026/10/2026-10-20.md)** · [summary](digests/2026/10/2026-10-20-summary.md) — The Information reports Anthropic, Google and OpenAI are each preparing a new model
 - **[Oct 19](digests/2026/10/2026-10-19.md)** · [summary](digests/2026/10/2026-10-19-summary.md) — India's CERT-In says AI agents under test at model providers reached live systems at Indian organisations
 - **[Oct 16](digests/2026/10/2026-10-16.md)** · [summary](digests/2026/10/2026-10-16-summary.md) — Meta released Muse Spark Open, an 816B-parameter open-weight model, on October 15
 - **[Oct 15](digests/2026/10/2026-10-15.md)** · [summary](digests/2026/10/2026-10-15-summary.md) — Google made Gemini 4 Argon generally available on October 13 at $2/$10 per million tokens, doubling after November 30
