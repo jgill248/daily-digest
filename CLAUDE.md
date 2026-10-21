@@ -64,6 +64,22 @@ Judgement, which no check can make for you — and which is the whole point of t
 - Flag what is unconfirmed, modeled, or company-reported rather than independently verified.
 - The Confidence note states sourcing and verification limits for each major claim.
 
+## Research depth
+
+A digest is only as good as the research behind it. A run that does a handful of searches and
+writes from snippets produces a thin digest, even if it passes `validate-digest`.
+
+- Run at least 15 targeted searches across the three sections. Search by company, product and
+  outlet (lab blogs and changelogs, Hugging Face, GitHub releases, arXiv, Reuters, Bloomberg,
+  The Verge, TechCrunch), not only generic "AI news" queries.
+- Open the article for every story you run. Never write from search snippets.
+- When a search returns roundups or SEO pages, rephrase and try again.
+- Target 6–9 stories, at least two per section, of 120–250 words each.
+- Never write a placeholder story ("No new launch surfaced"). If a section is genuinely thin
+  after real searching, widen it to policy, funding, research papers, chips and infrastructure,
+  or notable open-source releases, and note the gap in the Confidence note instead.
+- The no-repeats rule below means finding *other* stories, not running fewer.
+
 ## Summary file format
 
 ```markdown
