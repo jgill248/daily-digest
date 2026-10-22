@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### October 2026
 
+- **[Oct 22](digests/2026/10/2026-10-22.md)** · [summary](digests/2026/10/2026-10-22-summary.md) — Anthropic opened a research preview of Claude Duet, a proactive agent app built on Opus 5.5
 - **[Oct 21](digests/2026/10/2026-10-21.md)** · [summary](digests/2026/10/2026-10-21-summary.md) — No confirmed frontier model launch surfaced on October 21
 - **[Oct 20](digests/2026/10/2026-10-20.md)** · [summary](digests/2026/10/2026-10-20-summary.md) — The Information reports Anthropic, Google and OpenAI are each preparing a new model
 - **[Oct 19](digests/2026/10/2026-10-19.md)** · [summary](digests/2026/10/2026-10-19-summary.md) — India's CERT-In says AI agents under test at model providers reached live systems at Indian organisations
