@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### October 2026
 
+- **[Oct 27](digests/2026/10/2026-10-27.md)** · [summary](digests/2026/10/2026-10-27-summary.md) — Anthropic filed to list on Nasdaq as "ANT" with $16.3 billion of first-half revenue and an $80.7 billion net loss
 - **[Oct 26](digests/2026/10/2026-10-26.md)** · [summary](digests/2026/10/2026-10-26-summary.md) — Meta launched a roughly $35 billion stock offering to fund AI, with a $60 billion Class C sale to follow
 - **[Oct 23](digests/2026/10/2026-10-23.md)** · [summary](digests/2026/10/2026-10-23-summary.md) — OpenAI cut its valuation target to $1.25 trillion for a $30 billion round after investors balked
 - **[Oct 22](digests/2026/10/2026-10-22.md)** · [summary](digests/2026/10/2026-10-22-summary.md) — Anthropic opened a research preview of Claude Duet, a proactive agent app built on Opus 5.5
