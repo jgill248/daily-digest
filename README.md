@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### October 2026
 
+- **[Oct 29](digests/2026/10/2026-10-29.md)** · [summary](digests/2026/10/2026-10-29-summary.md) — Google released Gemini 4 Carbon, a cyber-focused frontier model that tops the Artificial Analysis index at 59
 - **[Oct 28](digests/2026/10/2026-10-28.md)** · [summary](digests/2026/10/2026-10-28-summary.md) — Google DeepMind previewed Genie 4, a world model with native audio that holds a scene for two minutes
 - **[Oct 27](digests/2026/10/2026-10-27.md)** · [summary](digests/2026/10/2026-10-27-summary.md) — Anthropic filed to list on Nasdaq as "ANT" with $16.3 billion of first-half revenue and an $80.7 billion net loss
 - **[Oct 26](digests/2026/10/2026-10-26.md)** · [summary](digests/2026/10/2026-10-26-summary.md) — Meta launched a roughly $35 billion stock offering to fund AI, with a $60 billion Class C sale to follow
