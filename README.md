@@ -28,6 +28,10 @@ The index below is generated from the files on disk after every merge — don't 
 ## Index
 
 <!-- BEGIN INDEX -->
+### November 2026
+
+- **[Nov 2](digests/2026/11/2026-11-02.md)** · [summary](digests/2026/11/2026-11-02-summary.md) — OpenAI cut its funding round to about $20 billion with roughly $11 billion committed, anchored by UAE fund MGX
+
 ### October 2026
 
 - **[Oct 30](digests/2026/10/2026-10-30.md)** · [summary](digests/2026/10/2026-10-30-summary.md) — AWS grew 39% to $46 billion on a $578 billion backlog, but $75.9 billion of quarterly capex sent Amazon shares down 7%
