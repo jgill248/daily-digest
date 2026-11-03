@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### November 2026
 
+- **[Nov 3](digests/2026/11/2026-11-03.md)** · [summary](digests/2026/11/2026-11-03-summary.md) — Anthropic's amended S-1 shows $16.96 billion of Q3 revenue, a $567 million operating loss and $895.4 billion committed
 - **[Nov 2](digests/2026/11/2026-11-02.md)** · [summary](digests/2026/11/2026-11-02-summary.md) — OpenAI cut its funding round to about $20 billion with roughly $11 billion committed, anchored by UAE fund MGX
 
 ### October 2026
