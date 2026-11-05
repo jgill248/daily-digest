@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### November 2026
 
+- **[Nov 5](digests/2026/11/2026-11-05.md)** · [summary](digests/2026/11/2026-11-05-summary.md) — OpenAI will buy Pierre Computer to put Git-based code storage inside Codex, and Meta bought Conductor the same day
 - **[Nov 4](digests/2026/11/2026-11-04.md)** · [summary](digests/2026/11/2026-11-04-summary.md) — Oracle cancelled a $7 billion, 100,000-chip lease to Tencent under US pressure, the FT reports
 - **[Nov 3](digests/2026/11/2026-11-03.md)** · [summary](digests/2026/11/2026-11-03-summary.md) — Anthropic's amended S-1 shows $16.96 billion of Q3 revenue, a $567 million operating loss and $895.4 billion committed
 - **[Nov 2](digests/2026/11/2026-11-02.md)** · [summary](digests/2026/11/2026-11-02-summary.md) — OpenAI cut its funding round to about $20 billion with roughly $11 billion committed, anchored by UAE fund MGX
