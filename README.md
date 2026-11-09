@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### November 2026
 
+- **[Nov 9](digests/2026/11/2026-11-09.md)** · [summary](digests/2026/11/2026-11-09-summary.md) — Nvidia's board opened an independent probe after Jensen Huang admitted an affair with a suspected Chinese spy
 - **[Nov 6](digests/2026/11/2026-11-06.md)** · [summary](digests/2026/11/2026-11-06-summary.md) — AI stocks lost about $2.5 trillion as the Nasdaq fell 5.5% on fears a Democratic Congress will slow data centres
 - **[Nov 5](digests/2026/11/2026-11-05.md)** · [summary](digests/2026/11/2026-11-05-summary.md) — OpenAI will buy Pierre Computer to put Git-based code storage inside Codex, and Meta bought Conductor the same day
 - **[Nov 4](digests/2026/11/2026-11-04.md)** · [summary](digests/2026/11/2026-11-04-summary.md) — Oracle cancelled a $7 billion, 100,000-chip lease to Tencent under US pressure, the FT reports
