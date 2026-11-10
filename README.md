@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### November 2026
 
+- **[Nov 10](digests/2026/11/2026-11-10.md)** · [summary](digests/2026/11/2026-11-10-summary.md) — Anthropic released Claude Fable 5.2 and Mythos 5.2 at $8/$40 per million tokens, 20% below Fable 5.1
 - **[Nov 9](digests/2026/11/2026-11-09.md)** · [summary](digests/2026/11/2026-11-09-summary.md) — Nvidia's board opened an independent probe after Jensen Huang admitted an affair with a suspected Chinese spy
 - **[Nov 6](digests/2026/11/2026-11-06.md)** · [summary](digests/2026/11/2026-11-06-summary.md) — AI stocks lost about $2.5 trillion as the Nasdaq fell 5.5% on fears a Democratic Congress will slow data centres
 - **[Nov 5](digests/2026/11/2026-11-05.md)** · [summary](digests/2026/11/2026-11-05-summary.md) — OpenAI will buy Pierre Computer to put Git-based code storage inside Codex, and Meta bought Conductor the same day
