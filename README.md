@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### November 2026
 
+- **[Nov 13](digests/2026/11/2026-11-13.md)** · [summary](digests/2026/11/2026-11-13-summary.md) — Jensen Huang resigned from Nvidia and CFO Colette Kress is interim CEO, with shares closing down 4% after a 14% plunge
 - **[Nov 12](digests/2026/11/2026-11-12.md)** · [summary](digests/2026/11/2026-11-12-summary.md) — Nvidia's board met overnight on ousting Jensen Huang after a second affair report, with no decision and shares down 7%
 - **[Nov 11](digests/2026/11/2026-11-11.md)** · [summary](digests/2026/11/2026-11-11-summary.md) — Anthropic's bankers weigh pricing the IPO above $78 after the book was covered on day one, the FT reports
 - **[Nov 10](digests/2026/11/2026-11-10.md)** · [summary](digests/2026/11/2026-11-10-summary.md) — Anthropic released Claude Fable 5.2 and Mythos 5.2 at $8/$40 per million tokens, 20% below Fable 5.1
