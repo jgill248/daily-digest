@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### November 2026
 
+- **[Nov 16](digests/2026/11/2026-11-16.md)** · [summary](digests/2026/11/2026-11-16-summary.md) — Jensen Huang is discussing a return to Nvidia with allies, the FT reports, as a petition passes 170,000 signatures
 - **[Nov 13](digests/2026/11/2026-11-13.md)** · [summary](digests/2026/11/2026-11-13-summary.md) — Jensen Huang resigned from Nvidia and CFO Colette Kress is interim CEO, with shares closing down 4% after a 14% plunge
 - **[Nov 12](digests/2026/11/2026-11-12.md)** · [summary](digests/2026/11/2026-11-12-summary.md) — Nvidia's board met overnight on ousting Jensen Huang after a second affair report, with no decision and shares down 7%
 - **[Nov 11](digests/2026/11/2026-11-11.md)** · [summary](digests/2026/11/2026-11-11-summary.md) — Anthropic's bankers weigh pricing the IPO above $78 after the book was covered on day one, the FT reports
