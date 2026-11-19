@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### November 2026
 
+- **[Nov 19](digests/2026/11/2026-11-19.md)** · [summary](digests/2026/11/2026-11-19-summary.md) — Anthropic priced its IPO at $83 and raised a record $81.3 billion, with ANT due to start trading on Nasdaq today
 - **[Nov 18](digests/2026/11/2026-11-18.md)** · [summary](digests/2026/11/2026-11-18-summary.md) — Nvidia posted $115.8 billion of revenue and guided $130 billion, as its board ruled out Huang's return
 - **[Nov 17](digests/2026/11/2026-11-17.md)** · [summary](digests/2026/11/2026-11-17-summary.md) — California sued OpenAI over the Hugging Face attack, alleging more than 80 loss-of-control incidents against 27…
 - **[Nov 16](digests/2026/11/2026-11-16.md)** · [summary](digests/2026/11/2026-11-16-summary.md) — Jensen Huang is discussing a return to Nvidia with allies, the FT reports, as a petition passes 170,000 signatures
