@@ -30,6 +30,7 @@ The index below is generated from the files on disk after every merge — don't 
 <!-- BEGIN INDEX -->
 ### November 2026
 
+- **[Nov 24](digests/2026/11/2026-11-24.md)** · [summary](digests/2026/11/2026-11-24-summary.md) — Nvidia's board reinstated Jensen Huang and the stock rose 31.5% to $165.05, its best day since 2003
 - **[Nov 23](digests/2026/11/2026-11-23.md)** · [summary](digests/2026/11/2026-11-23-summary.md) — Anthropic's Levent Alpöge says he and Claude proved the Riemann Hypothesis, and the Lean community certified the code
 - **[Nov 20](digests/2026/11/2026-11-20.md)** · [summary](digests/2026/11/2026-11-20-summary.md) — Anthropic opened at $111.50 and closed its debut at $97.17, up 17%, then fell about 6% premarket Friday
 - **[Nov 19](digests/2026/11/2026-11-19.md)** · [summary](digests/2026/11/2026-11-19-summary.md) — Anthropic priced its IPO at $83 and raised a record $81.3 billion, with ANT due to start trading on Nasdaq today
